@@ -1,8 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { Button, type ButtonProps } from "@/components/ui/button";
 import { useBooking } from "./booking-provider";
+import { Link } from "@/i18n/link";
+import { useI18n } from "@/i18n/context";
 import { cn } from "@/lib/cn";
 
 /**
@@ -69,17 +70,21 @@ export function SlotTrigger({
   className?: string;
 }) {
   const booking = useBooking();
+  const { dict } = useI18n();
 
   const classes = cn(
     "rounded-md border border-accent-line bg-accent-soft px-2 py-0.5 text-[13px] text-accent tabular transition-colors hover:bg-accent hover:text-white",
     className,
   );
 
+  const label = `${dict.schedule.bookAt} ${time}`;
+
   if (!booking?.available.has(doctorSlug)) {
     return (
       <Link
         href={`/appointment?doctor=${doctorSlug}&date=${date}&time=${time}`}
         className={classes}
+        aria-label={label}
       >
         {time}
       </Link>
@@ -91,7 +96,7 @@ export function SlotTrigger({
       type="button"
       onClick={() => booking.open(doctorSlug, { date, time })}
       className={classes}
-      aria-label={`Записаться на ${time}`}
+      aria-label={label}
     >
       {time}
     </button>

@@ -2,6 +2,7 @@
 
 import { Check } from "lucide-react";
 import { STEPS, useAppointment } from "@/stores/appointment-store";
+import { useI18n } from "@/i18n/context";
 import { cn } from "@/lib/cn";
 
 /**
@@ -10,9 +11,10 @@ import { cn } from "@/lib/cn";
  */
 export function Stepper() {
   const { step, maxReachableStep, goTo } = useAppointment();
+  const { dict } = useI18n();
 
   return (
-    <nav aria-label="Шаги записи">
+    <nav aria-label={dict.booking.stepsNav}>
       {/* На узком экране подписи скрыты, а отступы ужаты, чтобы все шесть
           шагов помещались в одну строку и индикатор не разъезжался. */}
       <ol className="flex items-center gap-0.5 sm:gap-1">
@@ -47,7 +49,7 @@ export function Stepper() {
                 >
                   {done ? <Check className="h-3 w-3" aria-hidden /> : item.id}
                 </span>
-                <span className="hidden sm:inline">{item.title}</span>
+                <span className="hidden sm:inline">{dict.steps[item.key]}</span>
               </button>
 
               {index < STEPS.length - 1 && (

@@ -1,12 +1,25 @@
-import Link from "next/link";
 import { AtSign, MapPin, Phone } from "lucide-react";
+import NextLink from "next/link";
 import { Logo } from "./logo";
-import { navLinks } from "./nav-links";
 import { company } from "@/data/company";
 import { services } from "@/data/services";
+import { getDictionary, localizedPath, pick, type Locale } from "@/i18n";
 
-export function SiteFooter() {
+export function SiteFooter({ locale }: { locale: Locale }) {
+  const dict = getDictionary(locale);
   const year = new Date().getFullYear();
+
+  // Подвал — серверный компонент, поэтому язык подставляем сами,
+  // а не через клиентскую обёртку Link.
+  const href = (path: string) => localizedPath(path, locale);
+
+  const sections = [
+    { href: "/about", label: dict.nav.about },
+    { href: "/services", label: dict.nav.services },
+    { href: "/doctors", label: dict.nav.doctors },
+    { href: "/#reviews", label: dict.nav.reviews },
+    { href: "/contacts", label: dict.nav.contacts },
+  ];
 
   return (
     <footer className="border-t border-line bg-milk">
@@ -14,42 +27,41 @@ export function SiteFooter() {
         <div className="flex flex-col gap-4">
           <Logo />
           <p className="max-w-xs text-sm leading-relaxed text-ink-2">
-            Стоматологическая клиника в Ташкенте. Лечение, восстановление
-            и профилактика для взрослых и детей.
+            {dict.footer.tagline}
           </p>
         </div>
 
-        <nav aria-label="Разделы сайта">
+        <nav aria-label={dict.footer.sitemapNav}>
           <h2 className="mb-4 text-[13px] font-semibold tracking-wide text-ink">
-            Разделы
+            {dict.footer.sections}
           </h2>
           <ul className="flex flex-col gap-2.5">
-            {navLinks.map((link) => (
+            {sections.map((link) => (
               <li key={link.href}>
-                <Link
-                  href={link.href}
+                <NextLink
+                  href={href(link.href)}
                   className="text-sm text-ink-2 transition-colors hover:text-accent"
                 >
                   {link.label}
-                </Link>
+                </NextLink>
               </li>
             ))}
           </ul>
         </nav>
 
-        <nav aria-label="Услуги">
+        <nav aria-label={dict.footer.services}>
           <h2 className="mb-4 text-[13px] font-semibold tracking-wide text-ink">
-            Услуги
+            {dict.footer.services}
           </h2>
           <ul className="flex flex-col gap-2.5">
             {services.slice(0, 6).map((service) => (
               <li key={service.slug}>
-                <Link
-                  href={`/services/${service.slug}`}
+                <NextLink
+                  href={href(`/services/${service.slug}`)}
                   className="text-sm text-ink-2 transition-colors hover:text-accent"
                 >
-                  {service.title}
-                </Link>
+                  {pick(service.title, locale)}
+                </NextLink>
               </li>
             ))}
           </ul>
@@ -57,7 +69,7 @@ export function SiteFooter() {
 
         <div>
           <h2 className="mb-4 text-[13px] font-semibold tracking-wide text-ink">
-            Контакты
+            {dict.footer.contacts}
           </h2>
           <ul className="flex flex-col gap-3 text-sm text-ink-2">
             <li>
@@ -82,7 +94,7 @@ export function SiteFooter() {
             </li>
             <li className="flex items-start gap-2.5">
               <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden />
-              {company.addressFull}
+              {pick(company.addressFull, locale)}
             </li>
           </ul>
         </div>
@@ -93,9 +105,12 @@ export function SiteFooter() {
           <p>
             © {year} {company.name}
           </p>
-          <Link href="/privacy" className="transition-colors hover:text-accent">
-            Политика конфиденциальности
-          </Link>
+          <NextLink
+            href={href("/privacy")}
+            className="transition-colors hover:text-accent"
+          >
+            {dict.footer.privacy}
+          </NextLink>
         </div>
       </div>
     </footer>

@@ -4,7 +4,8 @@ import {
   SlotTrigger,
 } from "@/components/appointment/booking-trigger";
 import { minutesToLabel } from "@/lib/time";
-import { formatDate, weekdayFull, weekdayShort } from "@/lib/format";
+import { getDictionary, type Locale } from "@/i18n";
+import { formatDate, weekdayFull, weekdayShort } from "@/i18n/format";
 import type { DoctorSchedule as Schedule, ScheduleDay } from "@/types/schedule";
 import { cn } from "@/lib/cn";
 
@@ -19,26 +20,31 @@ export function DoctorScheduleBlock({
   doctorSlug,
   schedule,
   days,
+  locale,
 }: {
   doctorSlug: string;
   schedule: Schedule;
   days: ScheduleDay[];
+  locale: Locale;
 }) {
+  const dict = getDictionary(locale);
   const byWeekday = new Map(
     schedule.workingDays.map((day) => [day.dayOfWeek, day]),
   );
 
   // Показываем только дни, когда врач принимает и есть свободное время.
-  const upcoming = days.filter((day) => day.isWorking && day.freeCount > 0).slice(0, 6);
+  const upcoming = days
+    .filter((day) => day.isWorking && day.freeCount > 0)
+    .slice(0, 6);
 
   return (
     <section className="flex flex-col gap-6">
-      <h2 className="display text-[28px] sm:text-[34px]">График приёма</h2>
+      <h2 className="display text-[28px] sm:text-[34px]">{dict.schedule.title}</h2>
 
       <div className="grid gap-5 lg:grid-cols-2">
         <div className="rounded-card border border-line bg-paper p-6">
           <h3 className="mb-4 text-[13px] font-semibold tracking-wide text-ink-3 uppercase">
-            Часы работы
+            {dict.schedule.workingHours}
           </h3>
 
           <ul className="flex flex-col">
@@ -50,7 +56,9 @@ export function DoctorScheduleBlock({
                   key={dayOfWeek}
                   className="flex items-center justify-between gap-4 border-b border-line py-2.5 last:border-b-0"
                 >
-                  <span className="text-sm text-ink-2">{weekdayFull(dayOfWeek)}</span>
+                  <span className="text-sm text-ink-2">
+                    {weekdayFull(dayOfWeek, dict)}
+                  </span>
                   <span
                     className={cn(
                       "text-sm tabular",
@@ -59,7 +67,7 @@ export function DoctorScheduleBlock({
                   >
                     {workingDay
                       ? `${minutesToLabel(workingDay.startsAt)} — ${minutesToLabel(workingDay.endsAt)}`
-                      : "Не принимает"}
+                      : dict.schedule.notWorking}
                   </span>
                 </li>
               );
@@ -69,14 +77,11 @@ export function DoctorScheduleBlock({
 
         <div className="flex flex-col gap-4 rounded-card border border-line bg-milk p-6">
           <h3 className="text-[13px] font-semibold tracking-wide text-ink-3 uppercase">
-            Ближайшее свободное время
+            {dict.schedule.nearestFree}
           </h3>
 
           {upcoming.length === 0 ? (
-            <p className="text-sm text-ink-2">
-              На ближайшие дни свободного времени нет. Позвоните нам — подберём
-              вариант вручную.
-            </p>
+            <p className="text-sm text-ink-2">{dict.schedule.noFree}</p>
           ) : (
             <ul className="flex flex-col gap-2">
               {upcoming.map((day) => {
@@ -89,9 +94,11 @@ export function DoctorScheduleBlock({
                   >
                     <span className="flex min-w-[110px] items-baseline gap-1.5 text-sm">
                       <span className="font-medium text-ink">
-                        {formatDate(day.date)}
+                        {formatDate(day.date, dict)}
                       </span>
-                      <span className="text-ink-3">{weekdayShort(day.dayOfWeek)}</span>
+                      <span className="text-ink-3">
+                        {weekdayShort(day.dayOfWeek, dict)}
+                      </span>
                     </span>
 
                     <span className="flex flex-wrap gap-1.5">
@@ -121,7 +128,7 @@ export function DoctorScheduleBlock({
             className="mt-auto self-start"
           >
             <CalendarDays className="h-4 w-4" aria-hidden />
-            Все свободные даты
+            {dict.schedule.allDates}
           </BookingTrigger>
         </div>
       </div>

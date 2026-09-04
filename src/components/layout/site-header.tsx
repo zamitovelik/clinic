@@ -1,12 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, Phone, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Logo } from "./logo";
-import { navLinks } from "./nav-links";
+import { useNavLinks } from "./nav-links";
+import { LanguageSwitcher } from "./language-switcher";
+import { Link } from "@/i18n/link";
+import { useI18n } from "@/i18n/context";
+import { stripLocale } from "@/i18n/config";
 import { company } from "@/data/company";
 import { cn } from "@/lib/cn";
 
@@ -14,9 +17,9 @@ import { cn } from "@/lib/cn";
  * Закреплённая шапка (раздел 5 ТЗ).
  *
  * При прокрутке становится компактнее: уменьшается высота и появляется
- * граница. Порог намеренно небольшой — переход должен ощущаться сразу,
- * но не дёргаться при мелких движениях.
+ * граница.
  */
+
 /**
  * Пороги переключения. Их намеренно два: если сжимать и разжимать шапку по
  * одному и тому же значению, любое мелкое движение колеса около него
@@ -29,6 +32,8 @@ export function SiteHeader() {
   const [compact, setCompact] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
+  const { dict } = useI18n();
+  const navLinks = useNavLinks();
 
   useEffect(() => {
     function onScroll() {
@@ -55,6 +60,10 @@ export function SiteHeader() {
     };
   }, [menuOpen]);
 
+  // Активный пункт определяется по адресу без языкового префикса,
+  // иначе на узбекской версии ни один пункт не подсветится.
+  const barePath = stripLocale(pathname);
+
   return (
     <>
       {/*
@@ -74,13 +83,11 @@ export function SiteHeader() {
         <div className="container-page flex h-full items-center justify-between gap-6">
           <Logo />
 
-          <nav aria-label="Основная навигация" className="hidden lg:block">
+          <nav aria-label={dict.header.mainNav} className="hidden lg:block">
             <ul className="flex items-center gap-1">
               {navLinks.map((link) => {
                 const active =
-                  link.href.startsWith("/") &&
-                  !link.href.includes("#") &&
-                  pathname.startsWith(link.href);
+                  !link.href.includes("#") && barePath.startsWith(link.href);
 
                 return (
                   <li key={link.href}>
@@ -103,6 +110,8 @@ export function SiteHeader() {
           </nav>
 
           <div className="flex items-center gap-2 sm:gap-3">
+            <LanguageSwitcher className="hidden sm:flex" />
+
             <a
               href={`tel:${company.phoneRaw}`}
               className="hidden items-center gap-2 text-sm font-medium text-ink transition-colors hover:text-accent xl:flex"
@@ -112,7 +121,7 @@ export function SiteHeader() {
             </a>
 
             <Button asChild size="sm" className="hidden sm:inline-flex">
-              <Link href="/appointment">Записаться</Link>
+              <Link href="/appointment">{dict.header.book}</Link>
             </Button>
 
             <button
@@ -120,7 +129,7 @@ export function SiteHeader() {
               onClick={() => setMenuOpen((open) => !open)}
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"
-              aria-label={menuOpen ? "Закрыть меню" : "Открыть меню"}
+              aria-label={menuOpen ? dict.header.closeMenu : dict.header.openMenu}
               className="rounded-pill p-2.5 text-ink transition-colors hover:bg-milk lg:hidden"
             >
               {menuOpen ? (
@@ -141,7 +150,7 @@ export function SiteHeader() {
               compact ? "top-16" : "top-20",
             )}
           >
-            <nav aria-label="Мобильная навигация" className="container-page py-6">
+            <nav aria-label={dict.header.mobileNav} className="container-page py-6">
               <ul className="flex flex-col">
                 {navLinks.map((link) => (
                   <li key={link.href}>
@@ -157,12 +166,14 @@ export function SiteHeader() {
 
               <div className="mt-8 flex flex-col gap-3">
                 <Button asChild size="lg">
-                  <Link href="/appointment">Записаться на приём</Link>
+                  <Link href="/appointment">{dict.header.bookLong}</Link>
                 </Button>
                 <Button asChild size="lg" variant="outline">
                   <a href={`tel:${company.phoneRaw}`}>{company.phone}</a>
                 </Button>
               </div>
+
+              <LanguageSwitcher className="mt-8 justify-center sm:hidden" />
             </nav>
           </div>
         )}

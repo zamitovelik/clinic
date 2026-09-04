@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/i18n/link";
 import { cn } from "@/lib/cn";
 import { company } from "@/data/company";
 
@@ -18,12 +18,7 @@ function Mark({ className }: { className?: string }) {
         strokeWidth="1.6"
         strokeLinejoin="round"
       />
-      <path
-        d="M14 7v14"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeOpacity="0.45"
-      />
+      <path d="M14 7v14" stroke="currentColor" strokeWidth="1.6" strokeOpacity="0.45" />
     </svg>
   );
 }
@@ -38,7 +33,7 @@ export function Logo({
   return (
     <Link
       href="/"
-      aria-label={`${company.name} — на главную`}
+      aria-label={company.name}
       className={cn(
         "inline-flex items-center gap-2.5 transition-opacity hover:opacity-70",
         tone === "light" ? "text-paper" : "text-ink",

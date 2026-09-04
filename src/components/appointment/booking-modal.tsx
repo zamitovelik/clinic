@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useRef } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { ArrowLeft, Check } from "lucide-react";
 import { Modal } from "@/components/ui/modal";
 import { StepDate } from "./step-date";
@@ -11,7 +10,10 @@ import { StepPatient } from "./step-patient";
 import { StepConfirm } from "./step-confirm";
 import { AppointmentProvider, useAppointment } from "@/stores/appointment-store";
 import { buildDemoBookedSlots, buildScheduleDays } from "@/lib/schedule";
-import { formatDate } from "@/lib/format";
+import { Link } from "@/i18n/link";
+import { useI18n } from "@/i18n/context";
+import { fill } from "@/i18n";
+import { formatDate } from "@/i18n/format";
 import { company } from "@/data/company";
 import { Button } from "@/components/ui/button";
 import type { BookingData } from "@/types/booking";
@@ -28,10 +30,10 @@ import { cn } from "@/lib/cn";
 
 /** Шаги внутри окна: нумерация общего мастера, подписи — короткие. */
 const MODAL_STEPS = [
-  { id: 3, title: "Дата" },
-  { id: 4, title: "Время" },
-  { id: 5, title: "Данные" },
-  { id: 6, title: "Готово" },
+  { id: 3, key: "date" },
+  { id: 4, key: "time" },
+  { id: 5, key: "patient" },
+  { id: 6, key: "confirmShort" },
 ] as const;
 
 export function BookingModal({
@@ -48,13 +50,14 @@ export function BookingModal({
   onClose: () => void;
 }) {
   const { doctor, services } = booking;
+  const { dict } = useI18n();
 
   return (
     <Modal
       open={open}
       onClose={onClose}
       variant="panel"
-      title="Запись к врачу"
+      title={dict.booking.modalTitle}
     >
       <AppointmentProvider
         initialDraft={{
@@ -82,6 +85,7 @@ function BookingFlow({
   const { doctor, services, schedule } = booking;
   const { step, draft, back, result, setServiceKeepingDoctor, goTo } =
     useAppointment();
+  const { dict } = useI18n();
 
   const topRef = useRef<HTMLDivElement>(null);
   const firstRender = useRef(true);
@@ -131,22 +135,18 @@ function BookingFlow({
         </span>
 
         <div className="flex flex-col gap-2">
-          <h3 className="display text-[28px]">Вы записаны</h3>
+          <h3 className="display text-[28px]">{dict.success.title}</h3>
           <p className="max-w-sm text-[14px] leading-relaxed text-ink-2">
-            Мы свяжемся с вами для подтверждения записи по номеру{" "}
-            <span className="whitespace-nowrap text-ink tabular">
-              {result.patientPhone}
-            </span>
-            .
+            {fill(dict.success.text, { phone: result.patientPhone })}
           </p>
         </div>
 
         <dl className="w-full overflow-hidden rounded-card border border-line text-left">
           {[
-            { label: "Врач", value: doctor.name },
-            { label: "Услуга", value: service?.title ?? "—" },
-            { label: "Дата", value: formatDate(result.date) },
-            { label: "Время", value: result.time },
+            { label: dict.success.doctor, value: doctor.name },
+            { label: dict.success.service, value: service?.title ?? "—" },
+            { label: dict.success.date, value: formatDate(result.date, dict) },
+            { label: dict.success.time, value: result.time },
           ].map((row) => (
             <div
               key={row.label}
@@ -159,11 +159,11 @@ function BookingFlow({
         </dl>
 
         <Button size="lg" onClick={onClose} className="w-full sm:w-auto">
-          Готово
+          {dict.booking.done}
         </Button>
 
         <p className="text-[13px] text-ink-3">
-          Перенести или отменить приём:{" "}
+          {dict.success.rescheduleShort}{" "}
           <a
             href={`tel:${company.phoneRaw}`}
             className="text-accent tabular hover:underline"
@@ -201,7 +201,7 @@ function BookingFlow({
           href={`/doctors/${doctor.slug}`}
           className="ml-auto shrink-0 text-[13px] text-ink-3 transition-colors hover:text-accent"
         >
-          О враче
+          {dict.booking.aboutDoctor}
         </Link>
       </div>
 
@@ -210,7 +210,7 @@ function BookingFlow({
       {services.length > 1 ? (
         <fieldset className="flex flex-col gap-2.5">
           <legend className="mb-2.5 text-[13px] font-semibold tracking-wide text-ink-3 uppercase">
-            Направление
+            {dict.booking.direction}
           </legend>
           <div className="flex flex-wrap gap-2">
             {services.map((service) => {
@@ -238,7 +238,7 @@ function BookingFlow({
       ) : (
         services[0] && (
           <p className="text-[13px] text-ink-3">
-            Направление:{" "}
+            {dict.booking.directionOne}{" "}
             <span className="text-ink">{services[0].title}</span>
           </p>
         )
@@ -265,7 +265,7 @@ function BookingFlow({
           className="inline-flex items-center gap-2 self-start text-sm text-ink-2 transition-colors hover:text-accent"
         >
           <ArrowLeft className="h-4 w-4" aria-hidden />
-          Назад
+          {dict.booking.back}
         </button>
       )}
     </div>
@@ -282,10 +282,11 @@ function ProgressLine({
   draft: { date: string | null; time: string | null };
   onGoTo: (step: number) => void;
 }) {
+  const { dict } = useI18n();
   const reachable = !draft.date ? 3 : !draft.time ? 4 : 6;
 
   return (
-    <nav aria-label="Шаги записи">
+    <nav aria-label={dict.booking.stepsNav}>
       <ol className="flex items-center gap-1.5">
         {MODAL_STEPS.map((item) => {
           const done = item.id < step;
@@ -310,7 +311,7 @@ function ProgressLine({
                     current || done ? "bg-accent" : "bg-line",
                   )}
                 />
-                {item.title}
+                {dict.steps[item.key]}
               </button>
             </li>
           );

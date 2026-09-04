@@ -5,8 +5,15 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Modal } from "@/components/ui/modal";
 import { Section, SectionHeading } from "@/components/ui/section";
-import type { GalleryItem } from "@/data/gallery";
+import { useI18n } from "@/i18n/context";
 import { cn } from "@/lib/cn";
+
+/** Снимок галереи с подписью уже на нужном языке. */
+export interface GalleryPhoto {
+  id: string;
+  src: string;
+  caption: string;
+}
 
 /**
  * Галерея с просмотром во весь экран (раздел 17 ТЗ).
@@ -14,7 +21,8 @@ import { cn } from "@/lib/cn";
  * Внутри модального окна работают стрелки клавиатуры — так листать быстрее,
  * чем целиться мышью в кнопки.
  */
-export function GallerySection({ items }: { items: GalleryItem[] }) {
+export function GallerySection({ items }: { items: GalleryPhoto[] }) {
+  const { dict } = useI18n();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const close = useCallback(() => setOpenIndex(null), []);
@@ -47,9 +55,9 @@ export function GallerySection({ items }: { items: GalleryItem[] }) {
     <Section tone="milk" id="gallery">
       <div className="container-page">
         <SectionHeading
-          eyebrow="Галерея"
-          title="Как выглядит клиника"
-          description="Кабинеты, оборудование и зоны, где вы проведёте время до и во время приёма."
+          eyebrow={dict.gallery.eyebrow}
+          title={dict.gallery.title}
+          description={dict.gallery.description}
         />
 
         {/* Первая карточка шире остальных: сетка не выглядит однообразной,
@@ -61,7 +69,7 @@ export function GallerySection({ items }: { items: GalleryItem[] }) {
               key={item.id}
               type="button"
               onClick={() => setOpenIndex(index)}
-              aria-label={`Открыть фотографию: ${item.caption}`}
+              aria-label={`${dict.gallery.open}: ${item.caption}`}
               className={cn(
                 "group relative aspect-4/3 overflow-hidden rounded-card bg-mist",
                 index === 0 && "col-span-2",
@@ -85,7 +93,7 @@ export function GallerySection({ items }: { items: GalleryItem[] }) {
       <Modal
         open={active !== null}
         onClose={close}
-        title={active?.caption ?? "Фотография"}
+        title={active?.caption ?? dict.gallery.photo}
       >
         {active && (
           <figure className="flex flex-col items-center gap-4">
@@ -103,20 +111,21 @@ export function GallerySection({ items }: { items: GalleryItem[] }) {
               <button
                 type="button"
                 onClick={() => step(-1)}
-                aria-label="Предыдущая фотография"
+                aria-label={dict.gallery.prev}
                 className="rounded-pill bg-white/10 p-2 transition-colors hover:bg-white/20"
               >
                 <ChevronLeft className="h-5 w-5" aria-hidden />
               </button>
 
               <span className="tabular">
-                {active.caption} · {(openIndex ?? 0) + 1} из {items.length}
+                {active.caption} · {(openIndex ?? 0) + 1} {dict.common.of}{" "}
+                {items.length}
               </span>
 
               <button
                 type="button"
                 onClick={() => step(1)}
-                aria-label="Следующая фотография"
+                aria-label={dict.gallery.next}
                 className="rounded-pill bg-white/10 p-2 transition-colors hover:bg-white/20"
               >
                 <ChevronRight className="h-5 w-5" aria-hidden />

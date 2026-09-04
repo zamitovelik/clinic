@@ -7,7 +7,7 @@ import {
   useMemo,
   useReducer,
 } from "react";
-import { createAppointment } from "@/services/api";
+import { ApiError, createAppointment } from "@/services/api";
 import type { Appointment, AppointmentDraft } from "@/types/appointment";
 
 /**
@@ -18,14 +18,17 @@ import type { Appointment, AppointmentDraft } from "@/types/appointment";
  * протаскивать через каждый шаг.
  */
 
+/** Шаги мастера. Подписи берутся из словаря по ключу — здесь только порядок. */
 export const STEPS = [
-  { id: 1, title: "Услуга" },
-  { id: 2, title: "Врач" },
-  { id: 3, title: "Дата" },
-  { id: 4, title: "Время" },
-  { id: 5, title: "Данные" },
-  { id: 6, title: "Подтверждение" },
+  { id: 1, key: "service" },
+  { id: 2, key: "doctor" },
+  { id: 3, key: "date" },
+  { id: 4, key: "time" },
+  { id: 5, key: "patient" },
+  { id: 6, key: "confirm" },
 ] as const;
+
+export type StepKey = (typeof STEPS)[number]["key"];
 
 export const FIRST_STEP = 1;
 export const LAST_STEP = STEPS.length;
@@ -34,6 +37,10 @@ interface State {
   step: number;
   draft: AppointmentDraft;
   submitting: boolean;
+  /**
+   * Код ошибки, а не готовая фраза: сайт двуязычный, и текст подставляет
+   * интерфейс из словаря. Совпадает с ключом раздела validation.
+   */
   error: string | null;
   result: Appointment | null;
 }
@@ -49,7 +56,7 @@ type Action =
   | { type: "back" }
   | { type: "submitting" }
   | { type: "submitted"; appointment: Appointment }
-  | { type: "failed"; message: string }
+  | { type: "failed"; code: string }
   | { type: "reset" };
 
 const emptyDraft: AppointmentDraft = {
@@ -133,7 +140,7 @@ function reducer(state: State, action: Action): State {
       return { ...state, submitting: false, result: action.appointment };
 
     case "failed":
-      return { ...state, submitting: false, error: action.message };
+      return { ...state, submitting: false, error: action.code };
 
     case "reset":
       return { step: FIRST_STEP, draft: emptyDraft, submitting: false, error: null, result: null };
@@ -191,7 +198,7 @@ export function AppointmentProvider({
   const submit = useCallback(async () => {
     const { draft } = state;
     if (!draft.serviceSlug || !draft.date || !draft.time) {
-      dispatch({ type: "failed", message: "Заполнены не все поля записи" });
+      dispatch({ type: "failed", code: "incomplete" });
       return;
     }
 
@@ -212,10 +219,7 @@ export function AppointmentProvider({
     } catch (error) {
       dispatch({
         type: "failed",
-        message:
-          error instanceof Error
-            ? error.message
-            : "Не удалось отправить запись. Попробуйте ещё раз.",
+        code: error instanceof ApiError ? error.code : "failed",
       });
     }
   }, [state]);

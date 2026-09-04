@@ -1,10 +1,11 @@
 import Image from "next/image";
-import Link from "next/link";
+import NextLink from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { BookingTrigger } from "@/components/appointment/booking-trigger";
 import type { Doctor } from "@/types/doctor";
 import { cn } from "@/lib/cn";
-import { pluralYears } from "@/lib/format";
+import { getDictionary, localizedPath, pick, type Locale } from "@/i18n";
+import { pluralYears } from "@/i18n/format";
 
 /**
  * Карточка врача (раздел 9 ТЗ).
@@ -13,11 +14,16 @@ import { pluralYears } from "@/lib/format";
  */
 export function DoctorCard({
   doctor,
+  locale,
   className,
 }: {
   doctor: Doctor;
+  locale: Locale;
   className?: string;
 }) {
+  const dict = getDictionary(locale);
+  const specialty = pick(doctor.specialty, locale);
+
   return (
     <article
       className={cn(
@@ -29,7 +35,7 @@ export function DoctorCard({
       <div className="relative aspect-4/5 overflow-hidden bg-milk">
         <Image
           src={doctor.photo}
-          alt={`${doctor.name} — ${doctor.specialty}`}
+          alt={`${doctor.name} — ${specialty}`}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.03]"
@@ -39,33 +45,38 @@ export function DoctorCard({
       <div className="flex flex-1 flex-col gap-3 p-5 sm:p-6">
         <div className="flex flex-col gap-1">
           <h3 className="text-[17px] font-semibold text-ink">
-            <Link href={`/doctors/${doctor.slug}`} className="before:absolute before:inset-0">
+            <NextLink
+              href={localizedPath(`/doctors/${doctor.slug}`, locale)}
+              className="before:absolute before:inset-0"
+            >
               {doctor.name}
-            </Link>
+            </NextLink>
           </h3>
-          <p className="text-sm text-accent">{doctor.specialty}</p>
+          <p className="text-sm text-accent">{specialty}</p>
         </div>
 
         <dl className="flex flex-wrap gap-x-5 gap-y-1 text-[13px] text-ink-3">
           <div className="flex gap-1.5">
-            <dt>Стаж</dt>
-            <dd className="text-ink-2 tabular">{pluralYears(doctor.experience)}</dd>
+            <dt>{dict.doctorCard.experience}</dt>
+            <dd className="text-ink-2 tabular">
+              {pluralYears(doctor.experience, dict)}
+            </dd>
           </div>
           <div className="flex gap-1.5">
-            <dt className="sr-only">Категория</dt>
-            <dd className="text-ink-2">{doctor.category}</dd>
+            <dt className="sr-only">{dict.doctorPage.category}</dt>
+            <dd className="text-ink-2">{pick(doctor.category, locale)}</dd>
           </div>
         </dl>
 
         <p className="line-clamp-3 text-sm leading-relaxed text-ink-2">
-          {doctor.shortDescription}
+          {pick(doctor.shortDescription, locale)}
         </p>
 
         <div className="mt-auto flex items-center gap-2 pt-3">
           {/* z-10 поднимает кнопку над растянутой ссылкой карточки: клик по
               «Записаться» должен открывать окно, а не уводить на профиль. */}
           <BookingTrigger doctorSlug={doctor.slug} className="relative z-10">
-            Записаться
+            {dict.doctorCard.book}
           </BookingTrigger>
           <span className="ml-auto text-ink-3 transition-colors group-hover:text-accent">
             <ArrowUpRight className="h-4 w-4" aria-hidden />

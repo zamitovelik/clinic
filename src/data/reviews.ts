@@ -6,6 +6,10 @@ import type { Review } from "@/types/review";
  * Каждый отзыв помечен `demo: true` (раздел 16 ТЗ). Это не настоящие слова
  * пациентов, а образцы для проверки вёрстки. Перед запуском файл заменяется
  * реальными отзывами — с указанием источника в поле `source`.
+ *
+ * Настоящие отзывы придут на том языке, на котором их написали. Тогда второй
+ * вариант либо переводится, либо остаётся тем же текстом — выдавать перевод
+ * за слова пациента нельзя.
  */
 
 export const reviews: Review[] = [
@@ -15,7 +19,10 @@ export const reviews: Review[] = [
     authorName: "Анна К.",
     date: "2026-07-21",
     rating: 5,
-    text: "Долго не могла заставить себя пойти лечить зуб. Врач всё объяснил заранее и делал паузы, когда просила. Впервые вышла из стоматологии спокойной.",
+    text: {
+      ru: "Долго не могла заставить себя пойти лечить зуб. Врач всё объяснил заранее и делал паузы, когда просила. Впервые вышла из стоматологии спокойной.",
+      uz: "Uzoq vaqt tish davolatishga oʻzimni majbur qila olmadim. Shifokor hammasini oldindan tushuntirdi va soʻraganimda tanaffus qildi. Birinchi marta stomatologiyadan xotirjam chiqdim.",
+    },
     demo: true,
   },
   {
@@ -24,7 +31,10 @@ export const reviews: Review[] = [
     authorName: "Мадина Т.",
     date: "2026-07-09",
     rating: 5,
-    text: "Привела дочь пяти лет. Первый приём прошёл вообще без лечения — просто знакомились с кабинетом. На втором ребёнок уже сам сел в кресло.",
+    text: {
+      ru: "Привела дочь пяти лет. Первый приём прошёл вообще без лечения — просто знакомились с кабинетом. На втором ребёнок уже сам сел в кресло.",
+      uz: "Besh yoshli qizimni olib keldim. Birinchi qabul umuman davolashsiz oʻtdi — shunchaki xona bilan tanishdik. Ikkinchisida bola oʻzi kresloga oʻtirdi.",
+    },
     demo: true,
   },
   {
@@ -33,7 +43,10 @@ export const reviews: Review[] = [
     authorName: "Рустам А.",
     date: "2026-06-28",
     rating: 5,
-    text: "Удаляли зуб мудрости. Перед этим сделали снимок и подробно рассказали, как всё пройдёт. По ощущениям заняло меньше, чем я ожидал.",
+    text: {
+      ru: "Удаляли зуб мудрости. Перед этим сделали снимок и подробно рассказали, как всё пройдёт. По ощущениям заняло меньше, чем я ожидал.",
+      uz: "Aql tishimni olishdi. Bundan oldin rentgen qilib, hammasi qanday oʻtishini batafsil aytib berishdi. His-tuygʻularimga koʻra men kutganimdan kamroq vaqt oldi.",
+    },
     demo: true,
   },
   {
@@ -42,7 +55,10 @@ export const reviews: Review[] = [
     authorName: "Севара М.",
     date: "2026-06-15",
     rating: 5,
-    text: "Ношу элайнеры восьмой месяц. На каждом приёме показывают, насколько продвинулись относительно плана. Это очень мотивирует не бросать.",
+    text: {
+      ru: "Ношу элайнеры восьмой месяц. На каждом приёме показывают, насколько продвинулись относительно плана. Это очень мотивирует не бросать.",
+      uz: "Sakkizinchi oy aylaynerlar taqib yuribman. Har bir qabulda rejaga nisbatan qanchalik oldinga siljiganimizni koʻrsatishadi. Bu tashlab qoʻymaslikka juda undaydi.",
+    },
     demo: true,
   },
   {
@@ -51,7 +67,10 @@ export const reviews: Review[] = [
     authorName: "Дмитрий П.",
     date: "2026-05-30",
     rating: 5,
-    text: "Ставили коронку. Оттенок подбирали при мне, сравнивали с соседними зубами. Отличить от своего зуба не получается.",
+    text: {
+      ru: "Ставили коронку. Оттенок подбирали при мне, сравнивали с соседними зубами. Отличить от своего зуба не получается.",
+      uz: "Koronka qoʻyishdi. Rangni men oldimda tanlashdi, qoʻshni tishlar bilan solishtirishdi. Oʻz tishimdan farqlab boʻlmayapti.",
+    },
     demo: true,
   },
   {
@@ -60,7 +79,10 @@ export const reviews: Review[] = [
     authorName: "Ольга В.",
     date: "2026-05-12",
     rating: 5,
-    text: "Хожу на чистку раз в полгода. Отдельно ценю, что каждый раз разбирают, где я плохо прочищаю, и показывают на модели.",
+    text: {
+      ru: "Хожу на чистку раз в полгода. Отдельно ценю, что каждый раз разбирают, где я плохо прочищаю, и показывают на модели.",
+      uz: "Yarim yilda bir marta tozalashga boraman. Har safar qayerni yomon tozalayotganimni koʻrib chiqib, model ustida koʻrsatishlarini alohida qadrlayman.",
+    },
     demo: true,
   },
   {
@@ -69,7 +91,10 @@ export const reviews: Review[] = [
     authorName: "Шахзод Н.",
     date: "2026-04-27",
     rating: 5,
-    text: "Записался через сайт вечером, утром перезвонили и подтвердили время. Приняли минута в минуту, ждать не пришлось.",
+    text: {
+      ru: "Записался через сайт вечером, утром перезвонили и подтвердили время. Приняли минута в минуту, ждать не пришлось.",
+      uz: "Kechqurun sayt orqali yozildim, ertalab qoʻngʻiroq qilib vaqtni tasdiqlashdi. Daqiqama-daqiqa qabul qilishdi, kutishga toʻgʻri kelmadi.",
+    },
     demo: true,
   },
   {
@@ -78,7 +103,10 @@ export const reviews: Review[] = [
     authorName: "Ирина С.",
     date: "2026-04-03",
     rating: 5,
-    text: "Приятно, что в клинике тихо и нет очереди в коридоре. Совсем не похоже на стоматологию из детства.",
+    text: {
+      ru: "Приятно, что в клинике тихо и нет очереди в коридоре. Совсем не похоже на стоматологию из детства.",
+      uz: "Klinikada tinch va koridorda navbat yoʻqligi yoqimli. Bolalikdagi stomatologiyaga umuman oʻxshamaydi.",
+    },
     demo: true,
   },
 ];

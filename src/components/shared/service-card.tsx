@@ -1,16 +1,21 @@
-import Link from "next/link";
+import NextLink from "next/link";
 import { ArrowRight } from "lucide-react";
 import type { Service } from "@/types/service";
 import { cn } from "@/lib/cn";
+import { getDictionary, localizedPath, pick, type Locale } from "@/i18n";
 
 /** Карточка услуги для сетки каталога (раздел 8 ТЗ). */
 export function ServiceCard({
   service,
+  locale,
   className,
 }: {
   service: Service;
+  locale: Locale;
   className?: string;
 }) {
+  const dict = getDictionary(locale);
+
   return (
     <article
       className={cn(
@@ -20,15 +25,20 @@ export function ServiceCard({
       )}
     >
       <h3 className="text-[19px] font-semibold text-ink">
-        <Link href={`/services/${service.slug}`} className="before:absolute before:inset-0">
-          {service.title}
-        </Link>
+        <NextLink
+          href={localizedPath(`/services/${service.slug}`, locale)}
+          className="before:absolute before:inset-0"
+        >
+          {pick(service.title, locale)}
+        </NextLink>
       </h3>
 
-      <p className="text-sm leading-relaxed text-ink-2">{service.summary}</p>
+      <p className="text-sm leading-relaxed text-ink-2">
+        {pick(service.summary, locale)}
+      </p>
 
       <span className="mt-auto inline-flex items-center gap-2 pt-3 text-[13px] font-medium text-accent">
-        Подробнее
+        {dict.common.more}
         <ArrowRight
           className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
           aria-hidden

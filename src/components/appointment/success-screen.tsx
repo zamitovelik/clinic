@@ -1,12 +1,13 @@
 "use client";
 
-import Link from "next/link";
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAppointment } from "@/stores/appointment-store";
-import type { Doctor } from "@/types/doctor";
-import type { Service } from "@/types/service";
-import { formatDate } from "@/lib/format";
+import { Link } from "@/i18n/link";
+import { useI18n } from "@/i18n/context";
+import { fill } from "@/i18n";
+import { formatDate } from "@/i18n/format";
+import type { BookingDoctor, BookingService } from "@/types/booking";
 import { company } from "@/data/company";
 
 /** Экран успешной записи (раздел 26 ТЗ). */
@@ -14,20 +15,24 @@ export function SuccessScreen({
   services,
   doctors,
 }: {
-  services: Service[];
-  doctors: Doctor[];
+  services: BookingService[];
+  doctors: Pick<BookingDoctor, "slug" | "name">[];
 }) {
   const { result, reset } = useAppointment();
+  const { dict } = useI18n();
   if (!result) return null;
 
   const service = services.find((item) => item.slug === result.serviceSlug);
   const doctor = doctors.find((item) => item.slug === result.doctorSlug);
 
   const rows = [
-    { label: "Врач", value: doctor?.name ?? "Подберём специалиста" },
-    { label: "Услуга", value: service?.title ?? "—" },
-    { label: "Дата", value: formatDate(result.date) },
-    { label: "Время", value: result.time },
+    {
+      label: dict.success.doctor,
+      value: doctor?.name ?? dict.stepDoctor.anyResult,
+    },
+    { label: dict.success.service, value: service?.title ?? "—" },
+    { label: dict.success.date, value: formatDate(result.date, dict) },
+    { label: dict.success.time, value: result.time },
   ];
 
   return (
@@ -37,13 +42,9 @@ export function SuccessScreen({
       </span>
 
       <div className="flex flex-col gap-3">
-        <h2 className="display text-[32px] sm:text-[40px]">Вы записаны</h2>
+        <h2 className="display text-[32px] sm:text-[40px]">{dict.success.title}</h2>
         <p className="max-w-md text-[15px] leading-relaxed text-ink-2">
-          Мы свяжемся с вами для подтверждения записи по номеру{" "}
-          <span className="whitespace-nowrap text-ink tabular">
-            {result.patientPhone}
-          </span>
-          .
+          {fill(dict.success.text, { phone: result.patientPhone })}
         </p>
       </div>
 
@@ -61,15 +62,15 @@ export function SuccessScreen({
 
       <div className="flex flex-col gap-3 sm:flex-row">
         <Button asChild size="lg">
-          <Link href="/">На главную</Link>
+          <Link href="/">{dict.success.home}</Link>
         </Button>
         <Button size="lg" variant="outline" onClick={reset}>
-          Записаться ещё раз
+          {dict.success.again}
         </Button>
       </div>
 
       <p className="text-[13px] text-ink-3">
-        Нужно перенести или отменить приём? Позвоните нам:{" "}
+        {dict.success.reschedule}{" "}
         <a
           href={`tel:${company.phoneRaw}`}
           className="text-accent tabular hover:underline"

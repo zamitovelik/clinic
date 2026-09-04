@@ -3,7 +3,15 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Modal } from "@/components/ui/modal";
-import type { Certificate } from "@/types/doctor";
+import { useI18n } from "@/i18n/context";
+
+/** Документ с подписью уже на нужном языке. */
+export interface CertificateView {
+  id: string;
+  title: string;
+  year: string;
+  image: string;
+}
 
 /**
  * Сертификаты и дипломы (раздел 10 ТЗ).
@@ -12,15 +20,18 @@ import type { Certificate } from "@/types/doctor";
 export function CertificatesGallery({
   certificates,
 }: {
-  certificates: Certificate[];
+  certificates: CertificateView[];
 }) {
-  const [active, setActive] = useState<Certificate | null>(null);
+  const { dict } = useI18n();
+  const [active, setActive] = useState<CertificateView | null>(null);
 
   if (certificates.length === 0) return null;
 
   return (
     <section className="flex flex-col gap-6">
-      <h2 className="display text-[28px] sm:text-[34px]">Сертификаты и дипломы</h2>
+      <h2 className="display text-[28px] sm:text-[34px]">
+        {dict.doctorPage.certificates}
+      </h2>
 
       <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
         {certificates.map((certificate) => (
@@ -55,7 +66,7 @@ export function CertificatesGallery({
       <Modal
         open={active !== null}
         onClose={() => setActive(null)}
-        title={active?.title ?? "Документ"}
+        title={active?.title ?? dict.doctorPage.document}
         className="max-w-2xl"
       >
         {active && (

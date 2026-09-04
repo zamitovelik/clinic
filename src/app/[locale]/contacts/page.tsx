@@ -1,27 +1,63 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import NextLink from "next/link";
 import { AtSign, Clock, MapPin, Navigation, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ClinicMap } from "@/components/shared/clinic-map";
 import { company } from "@/data/company";
+import {
+  fill,
+  getDictionary,
+  localizedPath,
+  locales,
+  pick,
+  type Locale,
+} from "@/i18n";
+import { weekdayFull } from "@/i18n/format";
 
-export const metadata: Metadata = {
-  title: "Контакты",
-  description: `Контакты стоматологии ${company.name}: ${company.addressFull}, телефон ${company.phone}. Часы работы и схема проезда.`,
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const dict = getDictionary(locale);
 
-export default function ContactsPage() {
-  const routeUrl = `https://yandex.uz/maps/?text=${encodeURIComponent(company.addressFull)}`;
+  return {
+    title: dict.meta.contactsTitle,
+    description: fill(dict.meta.contactsDescription, {
+      company: company.name,
+      address: pick(company.addressFull, locale),
+      phone: company.phone,
+    }),
+    alternates: {
+      canonical: localizedPath("/contacts", locale),
+      languages: Object.fromEntries(
+        locales.map((item) => [item, localizedPath("/contacts", item)]),
+      ),
+    },
+  };
+}
+
+export default async function ContactsPage({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}) {
+  const { locale } = await params;
+  const dict = getDictionary(locale);
+  const address = pick(company.addressFull, locale);
+  const routeUrl = `https://yandex.uz/maps/?text=${encodeURIComponent(address)}`;
 
   return (
     <>
       <section className="border-b border-line bg-milk py-14 sm:py-20">
         <div className="container-page flex max-w-3xl flex-col gap-4">
-          <p className="eyebrow">Контакты</p>
-          <h1 className="display text-[36px] sm:text-[50px]">Как с нами связаться</h1>
+          <p className="eyebrow">{dict.contactsPage.eyebrow}</p>
+          <h1 className="display text-[36px] sm:text-[50px]">
+            {dict.contactsPage.title}
+          </h1>
           <p className="text-[16px] leading-relaxed text-ink-2">
-            Позвоните или запишитесь онлайн — администратор подтвердит время
-            и ответит на вопросы о лечении.
+            {dict.contactsPage.description}
           </p>
         </div>
       </section>
@@ -33,7 +69,7 @@ export default function ContactsPage() {
               <div className="flex items-start gap-4">
                 <Phone className="mt-0.5 h-5 w-5 shrink-0 text-accent" aria-hidden />
                 <div className="flex flex-col gap-0.5">
-                  <dt className="text-[13px] text-ink-3">Телефон</dt>
+                  <dt className="text-[13px] text-ink-3">{dict.location.phone}</dt>
                   <dd>
                     <a
                       href={`tel:${company.phoneRaw}`}
@@ -48,7 +84,9 @@ export default function ContactsPage() {
               <div className="flex items-start gap-4">
                 <AtSign className="mt-0.5 h-5 w-5 shrink-0 text-accent" aria-hidden />
                 <div className="flex flex-col gap-0.5">
-                  <dt className="text-[13px] text-ink-3">Instagram</dt>
+                  <dt className="text-[13px] text-ink-3">
+                    {dict.location.instagram}
+                  </dt>
                   <dd>
                     <a
                       href={company.instagramUrl}
@@ -65,15 +103,15 @@ export default function ContactsPage() {
               <div className="flex items-start gap-4">
                 <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-accent" aria-hidden />
                 <div className="flex flex-col gap-0.5">
-                  <dt className="text-[13px] text-ink-3">Адрес</dt>
-                  <dd className="text-[18px] text-ink">{company.addressFull}</dd>
+                  <dt className="text-[13px] text-ink-3">{dict.location.address}</dt>
+                  <dd className="text-[18px] text-ink">{address}</dd>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
                 <Clock className="mt-0.5 h-5 w-5 shrink-0 text-accent" aria-hidden />
                 <div className="flex w-full flex-col gap-1.5">
-                  <dt className="text-[13px] text-ink-3">Часы работы</dt>
+                  <dt className="text-[13px] text-ink-3">{dict.location.hours}</dt>
                   <dd>
                     <ul className="flex flex-col gap-1">
                       {company.workingHours.map((day) => (
@@ -81,8 +119,12 @@ export default function ContactsPage() {
                           key={day.dayOfWeek}
                           className="flex justify-between gap-6 border-b border-line py-1.5 text-[15px] last:border-b-0"
                         >
-                          <span className="text-ink-2">{day.label}</span>
-                          <span className="text-ink tabular">{day.hours}</span>
+                          <span className="text-ink-2">
+                            {weekdayFull(day.dayOfWeek, dict)}
+                          </span>
+                          <span className="text-ink tabular">
+                            {day.hours ?? dict.location.dayOff}
+                          </span>
                         </li>
                       ))}
                     </ul>
@@ -93,18 +135,23 @@ export default function ContactsPage() {
 
             <div className="flex flex-col gap-3 sm:flex-row">
               <Button asChild size="lg">
-                <Link href="/appointment">Записаться на приём</Link>
+                <NextLink href={localizedPath("/appointment", locale)}>
+                  {dict.contactsPage.book}
+                </NextLink>
               </Button>
               <Button asChild size="lg" variant="outline">
                 <a href={routeUrl} target="_blank" rel="noopener noreferrer">
                   <Navigation className="h-4 w-4" aria-hidden />
-                  Маршрут
+                  {dict.location.routeShort}
                 </a>
               </Button>
             </div>
           </div>
 
-          <ClinicMap className="aspect-4/3 lg:aspect-auto lg:min-h-[540px]" />
+          <ClinicMap
+            locale={locale}
+            className="aspect-4/3 lg:aspect-auto lg:min-h-[540px]"
+          />
         </div>
       </div>
     </>

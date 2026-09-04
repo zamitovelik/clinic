@@ -1,8 +1,9 @@
 import Image from "next/image";
-import Link from "next/link";
 import { Check, Clock, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "@/i18n/link";
 import { company } from "@/data/company";
+import { getDictionary, pick, type Locale } from "@/i18n";
 
 /**
  * Первый экран (раздел 6 ТЗ).
@@ -11,7 +12,8 @@ import { company } from "@/data/company";
  * в `company.stats`. Пока значений нет, вместо них идут качественные
  * утверждения — выдумывать опыт и количество пациентов нельзя.
  */
-export function Hero() {
+export function Hero({ locale }: { locale: Locale }) {
+  const dict = getDictionary(locale);
   const filledStats = company.stats.filter((stat) => stat.value.length > 0);
   const showStats = filledStats.length > 0;
 
@@ -29,22 +31,19 @@ export function Hero() {
           <p className="eyebrow">{company.name}</p>
 
           <h1 className="display text-[38px] sm:text-[54px] lg:text-[64px]">
-            Здоровая улыбка начинается
-            <br className="hidden sm:block" /> с правильного врача
+            {dict.hero.title}
           </h1>
 
           <p className="max-w-lg text-[16px] leading-relaxed text-ink-2 sm:text-[17px]">
-            Стоматология в Ташкенте, где лечение начинается с диагностики
-            и понятного плана, а не с кресла. Выберите специалиста, посмотрите
-            свободное время и запишитесь онлайн.
+            {dict.hero.subtitle}
           </p>
 
           <div className="flex flex-col gap-3 sm:flex-row">
             <Button asChild size="lg">
-              <Link href="/appointment">Записаться на приём</Link>
+              <Link href="/appointment">{dict.hero.ctaPrimary}</Link>
             </Button>
             <Button asChild size="lg" variant="outline">
-              <Link href="/doctors">Выбрать врача</Link>
+              <Link href="/doctors">{dict.hero.ctaSecondary}</Link>
             </Button>
           </div>
 
@@ -52,11 +51,13 @@ export function Hero() {
             <dl className="mt-2 grid grid-cols-3 gap-6 border-t border-line pt-7">
               {filledStats.map((stat) => (
                 <div key={stat.key} className="flex flex-col gap-1">
-                  <dt className="sr-only">{stat.label}</dt>
+                  <dt className="sr-only">{pick(stat.label, locale)}</dt>
                   <dd className="display text-[34px] text-ink tabular">
                     {stat.value}
                   </dd>
-                  <p className="text-[13px] text-ink-3">{stat.label}</p>
+                  <p className="text-[13px] text-ink-3">
+                    {pick(stat.label, locale)}
+                  </p>
                 </div>
               ))}
             </dl>
@@ -68,7 +69,7 @@ export function Hero() {
                   className="flex items-center gap-2.5 text-sm text-ink-2"
                 >
                   <Check className="h-4 w-4 shrink-0 text-accent" aria-hidden />
-                  {badge.title}
+                  {pick(badge.title, locale)}
                 </li>
               ))}
             </ul>
@@ -79,7 +80,7 @@ export function Hero() {
           <div className="relative aspect-4/5 overflow-hidden rounded-card bg-milk">
             <Image
               src="/images/hero-clinic.svg"
-              alt="Кабинет клиники Dentos Medical"
+              alt={dict.hero.photoAlt}
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 520px"
@@ -92,11 +93,11 @@ export function Hero() {
           <div className="absolute -bottom-5 left-4 flex flex-col gap-2 rounded-card border border-line bg-paper p-4 shadow-lift sm:left-6">
             <p className="flex items-center gap-2 text-[13px] font-medium text-ink">
               <MapPin className="h-4 w-4 text-accent" aria-hidden />
-              {company.address}
+              {pick(company.address, locale)}
             </p>
             <p className="flex items-center gap-2 text-[13px] text-ink-2">
               <Clock className="h-4 w-4 text-accent" aria-hidden />
-              Пн — Пт 09:00 — 19:00
+              {dict.hero.workdays}
             </p>
           </div>
         </div>

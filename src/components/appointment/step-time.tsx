@@ -1,45 +1,58 @@
 "use client";
 
 import { useAppointment } from "@/stores/appointment-store";
+import { useI18n } from "@/i18n/context";
+import { fill } from "@/i18n";
+import { formatDate, weekdayFull } from "@/i18n/format";
 import type { ScheduleDay } from "@/types/schedule";
-import { formatDate, weekdayFull } from "@/lib/format";
 import { cn } from "@/lib/cn";
 
 /** Сетка времени (раздел 12 ТЗ). Занятое и прошедшее время показано неактивным. */
 export function StepTime({ days }: { days: ScheduleDay[] }) {
   const { draft, setTime } = useAppointment();
+  const { dict } = useI18n();
   const day = days.find((item) => item.date === draft.date);
 
   if (!day) {
     return (
       <p className="rounded-card border border-dashed border-line-strong p-6 text-center text-sm text-ink-2">
-        Сначала выберите дату.
+        {dict.stepTime.chooseDate}
       </p>
     );
   }
 
-  const morning = day.slots.filter((slot) => slot.minutes < 12 * 60);
-  const afternoon = day.slots.filter(
-    (slot) => slot.minutes >= 12 * 60 && slot.minutes < 17 * 60,
-  );
-  const evening = day.slots.filter((slot) => slot.minutes >= 17 * 60);
-
   const groups = [
-    { title: "Утро", slots: morning },
-    { title: "День", slots: afternoon },
-    { title: "Вечер", slots: evening },
+    {
+      title: dict.stepTime.morning,
+      slots: day.slots.filter((slot) => slot.minutes < 12 * 60),
+    },
+    {
+      title: dict.stepTime.day,
+      slots: day.slots.filter(
+        (slot) => slot.minutes >= 12 * 60 && slot.minutes < 17 * 60,
+      ),
+    },
+    {
+      title: dict.stepTime.evening,
+      slots: day.slots.filter((slot) => slot.minutes >= 17 * 60),
+    },
   ].filter((group) => group.slots.length > 0);
 
   return (
     <fieldset className="flex flex-col gap-5">
-      <legend className="sr-only">Выбор времени</legend>
+      <legend className="sr-only">{dict.stepTime.legend}</legend>
 
       <div className="flex flex-col gap-2">
-        <h2 className="display text-[26px] sm:text-[32px]">Во сколько?</h2>
+        <h2 className="display text-[26px] sm:text-[32px]">
+          {dict.stepTime.title}
+        </h2>
         <p className="text-[15px] text-ink-2">
-          {weekdayFull(day.dayOfWeek)}, {formatDate(day.date)} — свободно{" "}
-          <span className="tabular">{day.freeCount}</span> из{" "}
-          <span className="tabular">{day.slots.length}</span>
+          {fill(dict.stepTime.summary, {
+            weekday: weekdayFull(day.dayOfWeek, dict),
+            date: formatDate(day.date, dict),
+            free: day.freeCount,
+            total: day.slots.length,
+          })}
         </p>
       </div>
 
@@ -83,8 +96,7 @@ export function StepTime({ days }: { days: ScheduleDay[] }) {
 
       {day.freeCount === 0 && (
         <p className="rounded-card border border-dashed border-line-strong p-6 text-center text-sm text-ink-2">
-          В этот день всё занято. Выберите другую дату — вернуться можно шагом
-          назад.
+          {dict.stepTime.allBooked}
         </p>
       )}
     </fieldset>

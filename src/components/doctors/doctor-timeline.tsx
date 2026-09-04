@@ -1,17 +1,27 @@
 import type { WorkExperienceItem } from "@/types/doctor";
+import { getDictionary, pick, type Locale } from "@/i18n";
 
 /** Опыт работы в виде временной шкалы (раздел 10 ТЗ). */
-export function DoctorTimeline({ items }: { items: WorkExperienceItem[] }) {
+export function DoctorTimeline({
+  items,
+  locale,
+}: {
+  items: WorkExperienceItem[];
+  locale: Locale;
+}) {
+  const dict = getDictionary(locale);
   if (items.length === 0) return null;
 
   return (
     <section className="flex flex-col gap-6">
-      <h2 className="display text-[28px] sm:text-[34px]">Опыт работы</h2>
+      <h2 className="display text-[28px] sm:text-[34px]">
+        {dict.doctorPage.workExperience}
+      </h2>
 
       <ol className="flex flex-col">
         {items.map((item, index) => (
           <li
-            key={`${item.period}-${item.place}`}
+            key={`${pick(item.period, locale)}-${index}`}
             className="relative flex gap-5 pb-7 last:pb-0"
           >
             {/* Линия шкалы не рисуется у последнего пункта, иначе она
@@ -29,9 +39,13 @@ export function DoctorTimeline({ items }: { items: WorkExperienceItem[] }) {
             />
 
             <div className="flex flex-col gap-0.5">
-              <span className="text-[13px] text-accent tabular">{item.period}</span>
-              <span className="text-[16px] font-medium text-ink">{item.place}</span>
-              <span className="text-sm text-ink-2">{item.role}</span>
+              <span className="text-[13px] text-accent tabular">
+                {pick(item.period, locale)}
+              </span>
+              <span className="text-[16px] font-medium text-ink">
+                {pick(item.place, locale)}
+              </span>
+              <span className="text-sm text-ink-2">{pick(item.role, locale)}</span>
             </div>
           </li>
         ))}

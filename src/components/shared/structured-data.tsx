@@ -1,5 +1,6 @@
 import { company } from "@/data/company";
 import type { Doctor } from "@/types/doctor";
+import { localizedPath, pick, type Locale } from "@/i18n";
 
 /**
  * Разметка schema.org (раздел 24 ТЗ).
@@ -26,11 +27,11 @@ function JsonLd({ data }: { data: Record<string, unknown> }) {
   );
 }
 
-export function ClinicStructuredData() {
+export function ClinicStructuredData({ locale }: { locale: Locale }) {
   const openingHours = company.workingHours
-    .filter((day) => day.hours !== "Выходной")
+    .filter((day) => day.hours !== null)
     .map((day) => {
-      const [opens, closes] = day.hours.split(" — ");
+      const [opens, closes] = (day.hours as string).split(" — ");
       return {
         "@type": "OpeningHoursSpecification",
         dayOfWeek: DAY_NAMES[day.dayOfWeek - 1],
@@ -45,12 +46,12 @@ export function ClinicStructuredData() {
         "@context": "https://schema.org",
         "@type": "Dentist",
         name: company.name,
-        url: siteUrl,
+        url: `${siteUrl}${localizedPath("/", locale)}`,
         telephone: company.phoneRaw,
         address: {
           "@type": "PostalAddress",
-          streetAddress: company.address,
-          addressLocality: company.city,
+          streetAddress: pick(company.address, locale),
+          addressLocality: pick(company.city, locale),
           addressCountry: "UZ",
         },
         geo: {
@@ -65,22 +66,28 @@ export function ClinicStructuredData() {
   );
 }
 
-export function DoctorStructuredData({ doctor }: { doctor: Doctor }) {
+export function DoctorStructuredData({
+  doctor,
+  locale,
+}: {
+  doctor: Doctor;
+  locale: Locale;
+}) {
   return (
     <JsonLd
       data={{
         "@context": "https://schema.org",
         "@type": "Physician",
         name: doctor.name,
-        url: `${siteUrl}/doctors/${doctor.slug}`,
+        url: `${siteUrl}${localizedPath(`/doctors/${doctor.slug}`, locale)}`,
         image: `${siteUrl}${doctor.photo}`,
         medicalSpecialty: "Dentistry",
-        jobTitle: doctor.specialty,
+        jobTitle: pick(doctor.specialty, locale),
         worksFor: { "@type": "Dentist", name: company.name },
         address: {
           "@type": "PostalAddress",
-          streetAddress: company.address,
-          addressLocality: company.city,
+          streetAddress: pick(company.address, locale),
+          addressLocality: pick(company.city, locale),
           addressCountry: "UZ",
         },
       }}

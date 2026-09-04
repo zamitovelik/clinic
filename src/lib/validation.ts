@@ -5,8 +5,8 @@
  * библиотеки: тянуть её в клиентский бандл ради длины имени и формата
  * телефона дороже, чем эти двадцать строк.
  *
- * Тексты ошибок объясняют, что именно исправить, а не сообщают «ошибка
- * валидации»: человек должен понять, что от него хотят, с первого раза.
+ * Возвращаются коды, а не готовые фразы: сайт двуязычный, и текст ошибки
+ * подставляет уже интерфейс из словаря нужного языка.
  */
 
 export const NAME_MIN = 2;
@@ -52,26 +52,40 @@ export interface PatientInput {
   comment?: string;
 }
 
-/** Карта «поле → сообщение». Пустая, если всё в порядке. */
-export type PatientErrors = Partial<Record<keyof PatientInput, string>>;
+/** Код ошибки. Совпадает с ключом в словаре `validation`. */
+export type PatientErrorCode =
+  | "nameRequired"
+  | "nameTooLong"
+  | "phoneInvalid"
+  | "commentTooLong";
+
+export type PatientErrors = Partial<Record<keyof PatientInput, PatientErrorCode>>;
 
 export function validatePatient(input: PatientInput): PatientErrors {
   const errors: PatientErrors = {};
 
   const name = input.patientName.trim();
   if (name.length < NAME_MIN) {
-    errors.patientName = "Укажите имя — как к вам обращаться";
+    errors.patientName = "nameRequired";
   } else if (name.length > NAME_MAX) {
-    errors.patientName = `Не длиннее ${NAME_MAX} знаков`;
+    errors.patientName = "nameTooLong";
   }
 
   if (normalizePhone(input.patientPhone) === null) {
-    errors.patientPhone = "Введите номер в формате +998 90 123 45 67";
+    errors.patientPhone = "phoneInvalid";
   }
 
   if ((input.comment?.trim().length ?? 0) > COMMENT_MAX) {
-    errors.comment = `Не длиннее ${COMMENT_MAX} знаков`;
+    errors.comment = "commentTooLong";
   }
 
   return errors;
 }
+
+/** Предел длины для сообщения об ошибке поля. */
+export const ERROR_LIMITS: Record<PatientErrorCode, number | undefined> = {
+  nameRequired: undefined,
+  nameTooLong: NAME_MAX,
+  phoneInvalid: undefined,
+  commentTooLong: COMMENT_MAX,
+};

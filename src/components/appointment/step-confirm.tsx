@@ -3,10 +3,11 @@
 import { AlertCircle, Loader2, Pencil } from "lucide-react";
 import { useAppointment } from "@/stores/appointment-store";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/i18n/context";
+import { formatDate, weekdayFull } from "@/i18n/format";
+import { isoDayOfWeek, instantFromTashkent } from "@/lib/time";
 import type { BookingDoctor, BookingService } from "@/types/booking";
-import { formatDate, weekdayFull } from "@/lib/format";
-import { isoDayOfWeek } from "@/lib/time";
-import { instantFromTashkent } from "@/lib/time";
+import type { Dictionary } from "@/i18n";
 
 /** Экран подтверждения: всё, что выбрал пациент, одним списком (раздел 12 ТЗ). */
 export function StepConfirm({
@@ -25,40 +26,56 @@ export function StepConfirm({
   editableSteps?: number[];
 }) {
   const { draft, submit, submitting, error, goTo } = useAppointment();
+  const { dict } = useI18n();
 
   const service = services.find((item) => item.slug === draft.serviceSlug);
   const doctor = doctors.find((item) => item.slug === draft.doctorSlug);
 
   const rows = [
-    { label: "Услуга", value: service?.title ?? "—", step: 1 },
+    { label: dict.stepConfirm.service, value: service?.title ?? "—", step: 1 },
     {
-      label: "Врач",
-      value: draft.anyDoctor ? "Любой подходящий врач" : (doctor?.name ?? "—"),
+      label: dict.stepConfirm.doctor,
+      value: draft.anyDoctor
+        ? dict.stepDoctor.any
+        : (doctor?.name ?? "—"),
       step: 2,
     },
     {
-      label: "Дата",
+      label: dict.stepConfirm.date,
       value: draft.date
-        ? `${formatDate(draft.date)}, ${weekdayFull(isoDayOfWeek(instantFromTashkent(draft.date, 720))).toLowerCase()}`
+        ? `${formatDate(draft.date, dict)}, ${weekdayFull(
+            isoDayOfWeek(instantFromTashkent(draft.date, 720)),
+            dict,
+          ).toLowerCase()}`
         : "—",
       step: 3,
     },
-    { label: "Время", value: draft.time ?? "—", step: 4 },
-    { label: "Пациент", value: draft.patientName || "—", step: 5 },
-    { label: "Телефон", value: draft.patientPhone || "—", step: 5 },
+    { label: dict.stepConfirm.time, value: draft.time ?? "—", step: 4 },
+    { label: dict.stepConfirm.patient, value: draft.patientName || "—", step: 5 },
+    { label: dict.stepConfirm.phone, value: draft.patientPhone || "—", step: 5 },
   ];
 
   const canEdit = (step: number) =>
     editableSteps === undefined || editableSteps.includes(step);
 
+  /** Код ошибки от слоя данных превращается в текст здесь. */
+  const errorText =
+    error && error in dict.validation
+      ? dict.validation[error as keyof Dictionary["validation"]]
+      : error
+        ? dict.validation.failed
+        : null;
+
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-col gap-2">
-        <h2 className="display text-[26px] sm:text-[32px]">Проверьте запись</h2>
+        <h2 className="display text-[26px] sm:text-[32px]">
+          {dict.stepConfirm.title}
+        </h2>
         <p className="text-[15px] text-ink-2">
           {editableSteps === undefined
-            ? "Любой пункт можно изменить — нажмите на карандаш рядом с ним."
-            : "Дату, время и ваши данные можно изменить — нажмите на карандаш рядом с пунктом."}
+            ? dict.stepConfirm.hintAll
+            : dict.stepConfirm.hintLimited}
         </p>
       </div>
 
@@ -76,7 +93,7 @@ export function StepConfirm({
               <button
                 type="button"
                 onClick={() => goTo(row.step)}
-                aria-label={`Изменить: ${row.label.toLowerCase()}`}
+                aria-label={`${dict.stepConfirm.edit}: ${row.label.toLowerCase()}`}
                 className="shrink-0 rounded-pill p-2 text-ink-3 transition-colors hover:bg-milk hover:text-accent"
               >
                 <Pencil className="h-4 w-4" aria-hidden />
@@ -88,18 +105,18 @@ export function StepConfirm({
 
       {draft.comment && (
         <div className="rounded-card border border-line bg-milk p-5">
-          <p className="mb-1 text-[13px] text-ink-3">Комментарий</p>
+          <p className="mb-1 text-[13px] text-ink-3">{dict.stepConfirm.comment}</p>
           <p className="text-[15px] text-ink">{draft.comment}</p>
         </div>
       )}
 
-      {error && (
+      {errorText && (
         <p
           role="alert"
           className="flex items-start gap-2.5 rounded-card bg-danger-soft px-4 py-3 text-[14px] text-danger"
         >
           <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
-          {error}
+          {errorText}
         </p>
       )}
 
@@ -111,12 +128,11 @@ export function StepConfirm({
         className="self-start"
       >
         {submitting && <Loader2 className="h-4 w-4 animate-spin" aria-hidden />}
-        Подтвердить запись
+        {dict.stepConfirm.submit}
       </Button>
 
       <p className="text-[13px] leading-relaxed text-ink-3">
-        Нажимая кнопку, вы соглашаетесь на обработку персональных данных
-        для записи на приём.
+        {dict.stepConfirm.consent}
       </p>
     </div>
   );

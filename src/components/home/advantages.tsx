@@ -10,6 +10,7 @@ import {
 import { Section, SectionHeading } from "@/components/ui/section";
 import { Reveal } from "@/components/ui/reveal";
 import { advantages } from "@/data/advantages";
+import { getDictionary, pick, type Locale } from "@/i18n";
 
 /** Имена иконок из данных сопоставляются с компонентами здесь, а не в data. */
 const ICONS: Record<string, LucideIcon> = {
@@ -21,14 +22,16 @@ const ICONS: Record<string, LucideIcon> = {
   "shield-check": ShieldCheck,
 };
 
-export function Advantages() {
+export function Advantages({ locale }: { locale: Locale }) {
+  const dict = getDictionary(locale);
+
   return (
     <Section tone="milk">
       <div className="container-page">
         <SectionHeading
-          eyebrow="Почему Dentos Medical"
-          title="Подход, из-за которого возвращаются"
-          description="Мы не обещаем невозможного. Рассказываем, как устроена работа клиники, — а выводы делайте сами."
+          eyebrow={dict.advantages.eyebrow}
+          title={dict.advantages.title}
+          description={dict.advantages.description}
         />
 
         <div className="mt-12 grid gap-px overflow-hidden rounded-card border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
@@ -42,10 +45,10 @@ export function Advantages() {
                     <Icon className="h-5 w-5" strokeWidth={1.6} aria-hidden />
                   </span>
                   <h3 className="text-[17px] font-semibold text-ink">
-                    {advantage.title}
+                    {pick(advantage.title, locale)}
                   </h3>
                   <p className="text-sm leading-relaxed text-ink-2">
-                    {advantage.text}
+                    {pick(advantage.text, locale)}
                   </p>
                 </div>
               </Reveal>

@@ -3,10 +3,14 @@
 import { useId, useState } from "react";
 import { useAppointment } from "@/stores/appointment-store";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/i18n/context";
+import { fill } from "@/i18n";
 import {
+  ERROR_LIMITS,
   formatPhone,
   phoneDigits,
   validatePatient,
+  type PatientErrorCode,
   type PatientErrors,
 } from "@/lib/validation";
 import { cn } from "@/lib/cn";
@@ -14,10 +18,18 @@ import { cn } from "@/lib/cn";
 /** Шаг с данными пациента и проверкой полей (разделы 12 и 26 ТЗ). */
 export function StepPatient() {
   const { draft, setPatient, goTo } = useAppointment();
+  const { dict } = useI18n();
   const [errors, setErrors] = useState<PatientErrors>({});
   const nameId = useId();
   const phoneId = useId();
   const commentId = useId();
+
+  /** Код ошибки превращается в текст только здесь, на нужном языке. */
+  function message(code: PatientErrorCode): string {
+    const limit = ERROR_LIMITS[code];
+    const template = dict.validation[code];
+    return limit === undefined ? template : fill(template, { max: limit });
+  }
 
   /** Сбрасывает ошибку поля, как только человек начал его исправлять. */
   function update(patch: Partial<typeof draft>, field: keyof PatientErrors) {
@@ -52,19 +64,19 @@ export function StepPatient() {
   return (
     <form onSubmit={submit} noValidate className="flex flex-col gap-5">
       <div className="flex flex-col gap-2">
-        <h2 className="display text-[26px] sm:text-[32px]">Как с вами связаться?</h2>
-        <p className="text-[15px] text-ink-2">
-          Администратор перезвонит, чтобы подтвердить запись.
-        </p>
+        <h2 className="display text-[26px] sm:text-[32px]">
+          {dict.stepPatient.title}
+        </h2>
+        <p className="text-[15px] text-ink-2">{dict.stepPatient.subtitle}</p>
       </div>
 
       <div className="flex flex-col gap-4">
         <Field
           id={nameId}
-          label="Имя"
+          label={dict.stepPatient.name}
           required
-          error={errors.patientName}
-          hint="Как к вам обращаться"
+          error={errors.patientName && message(errors.patientName)}
+          hint={dict.stepPatient.nameHint}
         >
           <input
             id={nameId}
@@ -85,10 +97,10 @@ export function StepPatient() {
 
         <Field
           id={phoneId}
-          label="Телефон"
+          label={dict.stepPatient.phone}
           required
-          error={errors.patientPhone}
-          hint="На этот номер мы позвоним для подтверждения"
+          error={errors.patientPhone && message(errors.patientPhone)}
+          hint={dict.stepPatient.phoneHint}
         >
           <input
             id={phoneId}
@@ -114,9 +126,9 @@ export function StepPatient() {
 
         <Field
           id={commentId}
-          label="Комментарий"
-          error={errors.comment}
-          hint="Необязательно. Что беспокоит, пожелания по приёму"
+          label={dict.stepPatient.comment}
+          error={errors.comment && message(errors.comment)}
+          hint={dict.stepPatient.commentHint}
         >
           <textarea
             id={commentId}
@@ -134,7 +146,7 @@ export function StepPatient() {
       </div>
 
       <Button type="submit" size="lg" className="self-start">
-        Перейти к подтверждению
+        {dict.stepPatient.submit}
       </Button>
     </form>
   );

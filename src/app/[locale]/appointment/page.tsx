@@ -6,15 +6,37 @@ import { company } from "@/data/company";
 import { getDoctors, getDoctorSchedule, getServices } from "@/services/api";
 import { buildScheduleDay } from "@/lib/schedule";
 import type { DoctorSchedule } from "@/types/schedule";
+import {
+  getDictionary,
+  localizedPath,
+  locales,
+  pick,
+  type Locale,
+} from "@/i18n";
 
-export const metadata: Metadata = {
-  title: "Онлайн-запись",
-  description:
-    "Запишитесь на приём в стоматологию Dentos Medical в Ташкенте: выберите услугу, врача, дату и удобное время. Подтверждение по телефону.",
-  robots: { index: true, follow: true },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const dict = getDictionary(locale);
+
+  return {
+    title: dict.meta.appointmentTitle,
+    description: dict.meta.appointmentDescription,
+    alternates: {
+      canonical: localizedPath("/appointment", locale),
+      languages: Object.fromEntries(
+        locales.map((item) => [item, localizedPath("/appointment", item)]),
+      ),
+    },
+    robots: { index: true, follow: true },
+  };
+}
 
 interface PageProps {
+  params: Promise<{ locale: Locale }>;
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 
@@ -22,7 +44,12 @@ function single(value: string | string[] | undefined): string | undefined {
   return Array.isArray(value) ? value[0] : value;
 }
 
-export default async function AppointmentPage({ searchParams }: PageProps) {
+export default async function AppointmentPage({
+  params,
+  searchParams,
+}: PageProps) {
+  const { locale } = await params;
+  const dict = getDictionary(locale);
   const query = await searchParams;
 
   const [services, doctors] = await Promise.all([getServices(), getDoctors()]);
@@ -78,8 +105,10 @@ export default async function AppointmentPage({ searchParams }: PageProps) {
       <div className="container-page grid gap-10 py-10 sm:py-14 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-14">
         <div className="flex flex-col gap-8">
           <header className="flex flex-col gap-3">
-            <p className="eyebrow">Онлайн-запись</p>
-            <h1 className="display text-[34px] sm:text-[46px]">Запись на приём</h1>
+            <p className="eyebrow">{dict.appointment.eyebrow}</p>
+            <h1 className="display text-[34px] sm:text-[46px]">
+              {dict.appointment.title}
+            </h1>
           </header>
 
           <div className="rounded-card border border-line bg-paper p-6 sm:p-8">
@@ -104,11 +133,10 @@ export default async function AppointmentPage({ searchParams }: PageProps) {
         <aside className="flex flex-col gap-5 lg:sticky lg:top-24 lg:self-start">
           <div className="flex flex-col gap-3 rounded-card border border-line bg-paper p-6">
             <h2 className="text-[15px] font-semibold text-ink">
-              Удобнее по телефону?
+              {dict.appointment.byPhoneTitle}
             </h2>
             <p className="text-[14px] leading-relaxed text-ink-2">
-              Позвоните — администратор подберёт время и ответит на вопросы
-              о лечении.
+              {dict.appointment.byPhoneText}
             </p>
             <a
               href={`tel:${company.phoneRaw}`}
@@ -120,17 +148,23 @@ export default async function AppointmentPage({ searchParams }: PageProps) {
           </div>
 
           <div className="flex flex-col gap-3 rounded-card border border-line bg-paper p-6">
-            <h2 className="text-[15px] font-semibold text-ink">Как это работает</h2>
+            <h2 className="text-[15px] font-semibold text-ink">
+              {dict.appointment.howTitle}
+            </h2>
             <ol className="flex flex-col gap-2.5 text-[14px] text-ink-2">
-              <li>Вы выбираете услугу, врача и время.</li>
-              <li>Мы перезваниваем и подтверждаем запись.</li>
-              <li>Приходите к назначенному времени — без очереди.</li>
+              <li>{dict.appointment.how1}</li>
+              <li>{dict.appointment.how2}</li>
+              <li>{dict.appointment.how3}</li>
             </ol>
           </div>
 
           <div className="flex flex-col gap-2 rounded-card border border-line bg-paper p-6">
-            <h2 className="text-[15px] font-semibold text-ink">Адрес</h2>
-            <p className="text-[14px] text-ink-2">{company.addressFull}</p>
+            <h2 className="text-[15px] font-semibold text-ink">
+              {dict.appointment.addressTitle}
+            </h2>
+            <p className="text-[14px] text-ink-2">
+              {pick(company.addressFull, locale)}
+            </p>
           </div>
         </aside>
       </div>

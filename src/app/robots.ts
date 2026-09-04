@@ -4,7 +4,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://dentosmedical.uz";
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: { userAgent: "*", allow: "/", disallow: "/privacy" },
+    rules: { userAgent: "*", allow: "/", disallow: ["/privacy", "/uz/privacy"] },
     sitemap: `${siteUrl}/sitemap.xml`,
   };
 }
