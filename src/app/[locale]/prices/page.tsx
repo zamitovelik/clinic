@@ -127,7 +127,7 @@ export default async function PricesPage({
           ))}
         </div>
 
-        <div className="flex flex-col gap-6 rounded-card border border-line bg-milk p-7 sm:p-9">
+        <Reveal className="flex flex-col gap-6 rounded-card border border-line bg-milk p-7 sm:p-9">
           <p className="max-w-2xl text-[15px] leading-relaxed text-ink-2">
             {dict.pricesPage.note}
           </p>
@@ -136,7 +136,7 @@ export default async function PricesPage({
               {dict.pricesPage.book}
             </NextLink>
           </Button>
-        </div>
+        </Reveal>
       </div>
 
       <FaqSection locale={locale} tone="milk" />

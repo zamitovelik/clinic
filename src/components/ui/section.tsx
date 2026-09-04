@@ -1,8 +1,13 @@
+import { Reveal } from "@/components/ui/reveal";
 import { cn } from "@/lib/cn";
 
 /**
  * Шапка секции: короткий надзаголовок, заголовок в антикве и подпись.
  * Один компонент на весь сайт — так вертикальный ритм страниц совпадает.
+ *
+ * Появляется при прокрутке вместе с содержимым секции: раньше карточки
+ * выезжали, а заголовок над ними стоял на месте, и секция открывалась
+ * как будто наполовину.
  */
 export function SectionHeading({
   eyebrow,
@@ -20,7 +25,7 @@ export function SectionHeading({
   action?: React.ReactNode;
 }) {
   return (
-    <div
+    <Reveal
       className={cn(
         "flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between",
         align === "center" && "sm:flex-col sm:items-center sm:text-center",
@@ -40,7 +45,7 @@ export function SectionHeading({
         )}
       </div>
       {action && <div className="shrink-0">{action}</div>}
-    </div>
+    </Reveal>
   );
 }
 

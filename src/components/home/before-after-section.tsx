@@ -3,6 +3,7 @@
 import { useState } from "react";
 import NextLink from "next/link";
 import { ArrowRight, Clock } from "lucide-react";
+import { Reveal } from "@/components/ui/reveal";
 import { Section, SectionHeading } from "@/components/ui/section";
 import { CompareSlider } from "@/components/shared/compare-slider";
 import { DemoNotice } from "@/components/shared/demo-notice";
@@ -36,7 +37,8 @@ export function BeforeAfterSection({ tone = "paper" }: { tone?: "paper" | "milk"
           description={dict.beforeAfter.description}
         />
 
-        <div
+        <Reveal
+          as="div"
           role="tablist"
           aria-label={dict.beforeAfter.title}
           className="mt-10 flex flex-wrap gap-2"
@@ -64,7 +66,7 @@ export function BeforeAfterSection({ tone = "paper" }: { tone?: "paper" | "milk"
               </button>
             );
           })}
-        </div>
+        </Reveal>
 
         <div
           // Ключ по случаю: при переключении вкладки панель появляется

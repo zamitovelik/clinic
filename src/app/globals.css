@@ -75,6 +75,9 @@
   --animate-zoom-in: zoom-in 340ms var(--ease-soft) both;
   --animate-slide-up: slide-up 340ms var(--ease-soft) both;
   --animate-slide-down: slide-down 280ms var(--ease-soft) both;
+
+  /* Переход между страницами: только прозрачность, без сдвига. */
+  --animate-page-in: fade-in 380ms var(--ease-soft) both;
 }
 
 @keyframes fade-in {
@@ -145,19 +148,9 @@
     color: var(--color-accent);
   }
 
-  /*
-   * Плавное раскрытие `<details>` — «частые вопросы».
-   *
-   * Анимируем не высоту самого `<details>`, а появление ответа: правило
-   * начинает подходить в момент раскрытия, поэтому анимация запускается
-   * ровно тогда, когда нужно, и ни разу при загрузке страницы.
-   *
-   * Через `::details-content` высоту тянуть надёжнее нельзя: поддержка
-   * этого псевдоэлемента ещё неровная, и там, где она частичная, ответ
-   * просто перестаёт открываться.
-   */
-  details[open] > .details-body {
-    animation: var(--animate-slide-down);
+  /* Треугольник у `<summary>` убираем: свою стрелку рисует Accordion. */
+  summary::-webkit-details-marker {
+    display: none;
   }
 }
 
@@ -210,6 +203,15 @@
   .reveal[data-visible="true"] {
     opacity: 1;
     transform: none;
+  }
+
+  /* Появление ведёт скрипт. Если скриптов нет, показываем сразу —
+     иначе половина страницы осталась бы невидимой. */
+  @media (scripting: none) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+    }
   }
 }
 

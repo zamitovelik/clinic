@@ -4,9 +4,10 @@ import NextLink from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Check, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { RevealGroup } from "@/components/ui/reveal-group";
 import { DoctorCard } from "@/components/shared/doctor-card";
 import { DemoNotice } from "@/components/shared/demo-notice";
-import { cheapestPrice, PriceTable } from "@/components/shared/price-table";
+import { PriceTable } from "@/components/shared/price-table";
 import { CtaSection } from "@/components/home/cta-section";
 import { BookingProvider } from "@/components/appointment/booking-provider";
 import { services } from "@/data/services";
@@ -115,12 +116,17 @@ export default async function ServicePage({ params }: PageProps) {
                     minutes: service.durationMinutes,
                   })}
                 </span>
-                {/* Заказчик может вписать свою строку в `priceFrom`; пока её
-                    нет, берём самую низкую цену из прайса этой услуги. */}
-                {(service.priceFrom ?? cheapestPrice(priceItems, locale)) && (
+                {/*
+                  Строка «от …» появляется только если заказчик вписал её сам
+                  в `priceFrom`. Выводить сюда минимум из прайса нельзя:
+                  в имплантации самой дешёвой позицией оказывается
+                  формирователь десны, и «от 700 000» читалось бы как цена
+                  импланта. Полная таблица цен всё равно ниже на этой же
+                  странице.
+                */}
+                {service.priceFrom && (
                   <span className="text-ink">
-                    {dict.servicePage.price}{" "}
-                    {service.priceFrom ?? cheapestPrice(priceItems, locale)}
+                    {dict.servicePage.price} {service.priceFrom}
                   </span>
                 )}
               </div>
@@ -153,7 +159,7 @@ export default async function ServicePage({ params }: PageProps) {
         </div>
       </section>
 
-      <div className="container-page flex flex-col gap-16 py-14 sm:gap-20 sm:py-20">
+      <RevealGroup className="container-page flex flex-col gap-16 py-14 sm:gap-20 sm:py-20">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,340px)] lg:gap-16">
           <section className="flex flex-col gap-5">
             <h2 className="display text-[28px] sm:text-[34px]">
@@ -267,7 +273,7 @@ export default async function ServicePage({ params }: PageProps) {
             </ul>
           </section>
         )}
-      </div>
+      </RevealGroup>
 
       <CtaSection locale={locale} />
     </BookingProvider>

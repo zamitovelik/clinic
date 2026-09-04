@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Modal } from "@/components/ui/modal";
+import { Reveal } from "@/components/ui/reveal";
 import { Section, SectionHeading } from "@/components/ui/section";
 import { useI18n } from "@/i18n/context";
 import { cn } from "@/lib/cn";
@@ -65,27 +66,29 @@ export function GallerySection({ items }: { items: GalleryPhoto[] }) {
             иначе кадрирование срезало бы края фотографии. */}
         <div className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
           {items.map((item, index) => (
-            <button
+            <Reveal
               key={item.id}
-              type="button"
-              onClick={() => setOpenIndex(index)}
-              aria-label={`${dict.gallery.open}: ${item.caption}`}
-              className={cn(
-                "group relative aspect-4/3 overflow-hidden rounded-card bg-mist",
-                index === 0 && "col-span-2",
-              )}
+              delay={index * 50}
+              className={cn(index === 0 && "col-span-2")}
             >
-              <Image
-                src={item.src}
-                alt={item.caption}
-                fill
-                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                className="object-cover transition-transform duration-700 ease-soft group-hover:scale-105"
-              />
-              <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-deep/70 to-transparent p-3 text-left text-[13px] text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                {item.caption}
-              </span>
-            </button>
+              <button
+                type="button"
+                onClick={() => setOpenIndex(index)}
+                aria-label={`${dict.gallery.open}: ${item.caption}`}
+                className="group relative block aspect-4/3 w-full overflow-hidden rounded-card bg-mist"
+              >
+                <Image
+                  src={item.src}
+                  alt={item.caption}
+                  fill
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                  className="object-cover transition-transform duration-700 ease-soft group-hover:scale-105"
+                />
+                <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-deep/70 to-transparent p-3 text-left text-[13px] text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  {item.caption}
+                </span>
+              </button>
+            </Reveal>
           ))}
         </div>
       </div>

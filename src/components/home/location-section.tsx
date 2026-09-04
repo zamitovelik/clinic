@@ -1,5 +1,6 @@
 import { AtSign, Clock, MapPin, Navigation, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Reveal } from "@/components/ui/reveal";
 import { Section, SectionHeading } from "@/components/ui/section";
 import { ClinicMap } from "@/components/shared/clinic-map";
 import { company } from "@/data/company";
@@ -22,9 +23,16 @@ export function LocationSection({ locale }: { locale: Locale }) {
         />
 
         <div className="mt-12 grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
-          <ClinicMap className="aspect-16/10 lg:aspect-auto lg:min-h-[420px]" />
+          {/* h-full на обёртке и на карте: иначе карта перестала бы
+              растягиваться на высоту соседней колонки. */}
+          <Reveal className="h-full">
+            <ClinicMap className="h-full aspect-16/10 lg:aspect-auto lg:min-h-[420px]" />
+          </Reveal>
 
-          <div className="flex flex-col gap-6 rounded-card border border-line bg-milk p-7">
+          <Reveal
+            delay={80}
+            className="flex flex-col gap-6 rounded-card border border-line bg-milk p-7"
+          >
             <div className="flex flex-col gap-5">
               <div className="flex items-start gap-3">
                 <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-accent" aria-hidden />
@@ -93,7 +101,7 @@ export function LocationSection({ locale }: { locale: Locale }) {
                 {dict.location.route}
               </a>
             </Button>
-          </div>
+          </Reveal>
         </div>
       </div>
     </Section>

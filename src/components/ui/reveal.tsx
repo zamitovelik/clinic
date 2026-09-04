@@ -16,11 +16,17 @@ export function Reveal({
   delay = 0,
   className,
   as: Component = "div",
-}: {
+  ...rest
+}: React.HTMLAttributes<HTMLElement> & {
   children: React.ReactNode;
   /** Задержка в миллисекундах — для последовательного появления карточек. */
   delay?: number;
   className?: string;
+  /**
+   * Каким тегом отрисоваться. Нужно, когда обёртка заменяет собой готовый
+   * элемент — например `aside` или контейнер с `role`, — а не добавляет
+   * лишний `div` вокруг него.
+   */
   as?: React.ElementType;
 }) {
   const ref = useRef<HTMLElement>(null);
@@ -45,10 +51,11 @@ export function Reveal({
 
   return (
     <Component
+      {...rest}
       ref={ref}
       className={cn("reveal", className)}
       data-visible={visible ? "true" : "false"}
-      style={{ transitionDelay: `${delay}ms` }}
+      style={{ transitionDelay: `${delay}ms`, ...rest.style }}
     >
       {children}
     </Component>

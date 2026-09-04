@@ -1,5 +1,7 @@
-import { ChevronDown, Phone } from "lucide-react";
+import { Phone } from "lucide-react";
+import { Accordion } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import { Reveal } from "@/components/ui/reveal";
 import { Section, SectionHeading } from "@/components/ui/section";
 import { company } from "@/data/company";
 import { faq } from "@/data/faq";
@@ -33,31 +35,24 @@ export function FaqSection({
         />
 
         <div className="mt-12 grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-12">
-          <ul className="overflow-hidden rounded-card border border-line bg-paper">
-            {faq.map((item) => (
-              <li key={item.id} className="border-b border-line last:border-b-0">
-                <details className="group">
-                  <summary className="flex cursor-pointer list-none items-start justify-between gap-4 px-5 py-5 text-[16px] font-medium text-ink transition-colors hover:text-accent sm:px-7">
-                    {pick(item.question, locale)}
-                    <ChevronDown
-                      className="mt-0.5 h-5 w-5 shrink-0 text-ink-3 transition-transform duration-300 group-open:rotate-180"
-                      aria-hidden
-                    />
-                  </summary>
+          <Reveal>
+            <ul className="overflow-hidden rounded-card border border-line bg-paper">
+              {faq.map((item) => (
+                <li key={item.id} className="border-b border-line last:border-b-0">
+                  <Accordion
+                    question={pick(item.question, locale)}
+                    answer={pick(item.answer, locale)}
+                  />
+                </li>
+              ))}
+            </ul>
+          </Reveal>
 
-                  {/* details-body — зацепка для анимации раскрытия
-                      из globals.css, а не оформление. */}
-                  <div className="details-body px-5 pb-6 sm:px-7">
-                    <p className="max-w-2xl text-[15px] leading-relaxed text-ink-2">
-                      {pick(item.answer, locale)}
-                    </p>
-                  </div>
-                </details>
-              </li>
-            ))}
-          </ul>
-
-          <aside className="flex h-fit flex-col gap-4 rounded-card border border-line bg-milk p-7">
+          <Reveal
+            delay={80}
+            as="aside"
+            className="flex h-fit flex-col gap-4 rounded-card border border-line bg-milk p-7"
+          >
             <p className="text-[17px] font-semibold text-ink">
               {dict.faq.stillQuestions}
             </p>
@@ -70,7 +65,7 @@ export function FaqSection({
                 {company.phone}
               </a>
             </Button>
-          </aside>
+          </Reveal>
         </div>
       </div>
     </Section>

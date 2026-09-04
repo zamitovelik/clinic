@@ -4,6 +4,7 @@ import NextLink from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, GraduationCap } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { RevealGroup } from "@/components/ui/reveal-group";
 import { BookingProvider } from "@/components/appointment/booking-provider";
 import { BookingTrigger } from "@/components/appointment/booking-trigger";
 import { ReviewCard } from "@/components/shared/review-card";
@@ -182,7 +183,7 @@ export default async function DoctorPage({ params }: PageProps) {
         </div>
       </section>
 
-      <div className="container-page flex flex-col gap-16 py-14 sm:gap-20 sm:py-20">
+      <RevealGroup className="container-page flex flex-col gap-16 py-14 sm:gap-20 sm:py-20">
         <section className="flex flex-col gap-6">
           <h2 className="display text-[28px] sm:text-[34px]">
             {dict.doctorPage.about}
@@ -273,7 +274,7 @@ export default async function DoctorPage({ params }: PageProps) {
             </ul>
           )}
         </section>
-      </div>
+      </RevealGroup>
 
       <CtaSection locale={locale} />
     </BookingProvider>
