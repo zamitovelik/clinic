@@ -1,7 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="750" viewBox="0 0 1000 750" role="img" aria-label="фото 1">
+  <style>
+    @media (max-width: 110px) and (max-height: 110px) {
+      .caption { display: none }
+      .frame { display: none }
+    }
+  </style>
   <rect width="1000" height="750" fill="#F8F6F3"/>
-  <rect x="23" y="23" width="954" height="704" fill="none" stroke="#E5E1DB" stroke-width="3.9473684210526314"/>
+  <rect class="frame" x="23" y="23" width="954" height="704" fill="none" stroke="#E5E1DB" stroke-width="3.9473684210526314"/>
   <circle cx="500" cy="335.625" r="112.5" fill="none" stroke="#0F6B5F" stroke-opacity="0.4" stroke-width="3.9473684210526314"/>
   <path d="M 449.375 335.625 L 486.5 375 L 556.25 301.875" fill="none" stroke="#0F6B5F" stroke-opacity="0.65" stroke-width="6.315789473684211" stroke-linecap="round" stroke-linejoin="round"/>
-  <text x="500" y="526.875" text-anchor="middle" font-family="Segoe UI, system-ui, sans-serif" font-size="54" letter-spacing="4.3" fill="#79828A">ФОТО 1</text>
+  <text class="caption" x="500" y="526.875" text-anchor="middle" font-family="Segoe UI, system-ui, sans-serif" font-size="54" letter-spacing="4.3" fill="#79828A">ФОТО 1</text>
 </svg>
