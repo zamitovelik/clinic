@@ -40,6 +40,9 @@ export function Modal({
     restoreRef.current = document.activeElement as HTMLElement | null;
     closeRef.current?.focus();
 
+    // Место под полосу прокрутки зарезервировано в globals.css
+    // (scrollbar-gutter), поэтому блокировка прокрутки не меняет ширину окна
+    // и закреплённая шапка не дёргается вбок.
     const { overflow } = document.body.style;
     document.body.style.overflow = "hidden";
 
