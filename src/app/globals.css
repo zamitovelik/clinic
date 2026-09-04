@@ -1,26 +1,160 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+ * Оформление Dentos Medical.
+ *
+ * Палитра по разделу 2 ТЗ: белый, молочный, глубокий графит и один фирменный
+ * акцент. Акцент намеренно взят не голубой — ТЗ прямо запрещает «слишком много
+ * голубого», типичного для шаблонных стоматологий. Приглушённый хвойно-зелёный
+ * читается как медицинский и спокойный, но не как очередной дентальный шаблон.
+ */
+
+@theme {
+  /* Поверхности */
+  --color-paper: #ffffff;
+  --color-milk: #f8f6f3;
+  --color-mist: #f1eeea;
+  --color-line: #e5e1db;
+  --color-line-strong: #d3cec6;
+
+  /* Текст */
+  --color-ink: #15191b;
+  --color-ink-2: #4c5459;
+  --color-ink-3: #8a9298;
+
+  /* Фирменный акцент */
+  --color-accent: #0f6b5f;
+  --color-accent-hover: #0b564c;
+  --color-accent-soft: #e7f1ef;
+  --color-accent-line: #c5dcd7;
+
+  /* Глубокий фон для контрастных секций */
+  --color-deep: #12191a;
+  --color-deep-2: #1b2426;
+
+  /* Служебные */
+  --color-star: #c8992e;
+  --color-danger: #a8352a;
+  --color-danger-soft: #f9ece9;
+
+  --font-display: var(--font-cormorant), "Times New Roman", serif;
+  --font-sans: var(--font-onest), "Segoe UI", system-ui, sans-serif;
+
+  --radius-card: 16px;
+  --radius-pill: 999px;
+
+  /* Тени намеренно почти незаметные: ТЗ требует «очень мягкие shadows». */
+  --shadow-soft: 0 1px 2px rgba(21, 25, 27, 0.03),
+    0 12px 32px -20px rgba(21, 25, 27, 0.18);
+  --shadow-lift: 0 2px 6px rgba(21, 25, 27, 0.05),
+    0 28px 56px -28px rgba(21, 25, 27, 0.28);
+
+  --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  /* Крупный заголовок в фирменной антикве. */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    line-height: 1.08;
+  }
+
+  /* Надзаголовок секции: короткая подпись капителью. */
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Контейнер контента. Ширина подобрана так, чтобы строка текста
+     оставалась читаемой, а сетки карточек дышали. */
+  .container-page {
+    width: 100%;
+    max-width: 1240px;
+    margin-inline: auto;
+    padding-inline: 20px;
+  }
+
+  @media (min-width: 768px) {
+    .container-page {
+      padding-inline: 32px;
+    }
+  }
+
+  /* Появление секции при прокрутке. Один общий приём вместо россыпи эффектов. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 0.7s var(--ease-soft),
+      transform 0.7s var(--ease-soft);
+  }
+
+  .reveal[data-visible="true"] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
 }

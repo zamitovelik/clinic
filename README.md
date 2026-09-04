@@ -1,36 +1,127 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Dentos Medical — сайт стоматологической клиники
 
-## Getting Started
+Фронтенд сайта клиники Dentos Medical (Ташкент): услуги, врачи, графики приёма
+и полный сценарий онлайн-записи. Собственного бэкенда нет — данные приходят
+через слой `services/api`, который сейчас читает локальные файлы, а позже
+будет обращаться к CRM.
 
-First, run the development server:
+## Стек
+
+| Слой | Решение |
+| --- | --- |
+| Приложение | Next.js 15 (App Router), React 19, TypeScript |
+| Оформление | Tailwind CSS v4, собственные компоненты |
+| Состояние | React Context + useReducer (мастер записи) |
+| Проверка форм | Zod |
+| Иконки | lucide-react |
+| Шрифты | Cormorant Garamond (заголовки), Onest (текст) |
+
+## Запуск
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env
+npm run dev          # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Прочие команды:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build        # сборка
+npm run typecheck    # проверка типов
+npm run lint         # линтер
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Структура
 
-## Learn More
+```
+src/
+├── app/                     страницы (App Router)
+│   ├── page.tsx             главная
+│   ├── services/            каталог и страницы услуг
+│   ├── doctors/             список и профили врачей
+│   ├── appointment/         онлайн-запись
+│   ├── about/  contacts/    о клинике, контакты
+│   ├── sitemap.ts robots.ts карта сайта и правила индексации
+│   └── not-found.tsx        страница 404
+│
+├── components/
+│   ├── layout/              шапка, подвал, нижняя панель на мобильном
+│   ├── home/                секции главной страницы
+│   ├── doctors/             график приёма, дипломы, опыт работы
+│   ├── appointment/         шаги мастера записи
+│   ├── shared/              карточки врача, услуги, отзыва, карта
+│   └── ui/                  кнопка, карточка, модальное окно, рейтинг
+│
+├── data/                    ← ЗДЕСЬ ЗАКАЗЧИК МЕНЯЕТ СОДЕРЖИМОЕ
+│   ├── company.ts           телефон, адрес, Instagram, часы работы
+│   ├── doctors.ts           врачи (сейчас демонстрационные)
+│   ├── services.ts          услуги и их описания
+│   ├── schedule.ts          графики приёма врачей
+│   ├── reviews.ts           отзывы (сейчас демонстрационные)
+│   ├── gallery.ts           галерея
+│   └── advantages.ts        блок «Почему Dentos Medical»
+│
+├── services/api/            слой данных: сюда подключается CRM
+├── stores/                  состояние мастера записи
+├── lib/                     расписание, время, форматирование, проверки
+└── types/                   типы предметной области
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Два пути записи
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Записаться можно двумя способами, и они намеренно разной длины.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Врач уже выбран.** Кнопка «Записаться» в карточке врача, на его странице
+и у каждого свободного времени в расписании открывает модальное окно прямо
+на месте: врач известен, направление подставлено, остаются дата, время
+и контакты. Клик по конкретному времени открывает окно сразу на вводе данных.
+Отвечают за это `BookingProvider` (одно окно на страницу), `BookingTrigger`
+(кнопки) и `BookingModal`.
 
-## Deploy on Vercel
+**Врач ещё не выбран.** Страница `/appointment` ведёт полным мастером из шести
+шагов по разделу 12 ТЗ: услуга → врач → дата → время → данные → подтверждение.
+Здесь же доступен вариант «любой подходящий врач», который собирает свободное
+время сразу по всем специалистам направления.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Ссылка `/appointment?doctor=<slug>` тоже не заставляет выбирать заново:
+направление подставляется по врачу, и мастер открывается на выборе даты.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Подключение CRM
+
+Интерфейс нигде не обращается к данным напрямую — только через
+`src/services/api`. Чтобы перевести сайт на настоящий бэкенд, достаточно
+заменить тела функций на HTTP-запросы, не трогая компоненты:
+
+| Функция | Будущий запрос |
+| --- | --- |
+| `getDoctors()` | `GET /doctors` |
+| `getDoctor(slug)` | `GET /doctors/:slug` |
+| `getServices()` | `GET /services` |
+| `getDoctorSchedule(slug)` | `GET /doctors/:slug/schedule` |
+| `getDoctorReviews(slug)` | `GET /doctors/:slug/reviews` |
+| `createAppointment(input)` | `POST /appointments` |
+
+Занятые слоты приходят в поле `bookedSlots` в формате `2026-09-12T09:30` —
+это тот же формат, который сейчас генерирует демонстрационная функция
+`buildDemoBookedSlots`. Как только данные пойдут из CRM, её можно удалить,
+и расчёт сетки времени продолжит работать без изменений.
+
+## Что нужно заменить перед запуском
+
+- **Фотографии.** В `public/images` лежат векторные заглушки. Заменяются
+  реальными снимками клиники, врачей и документов — пути указаны в файлах
+  `src/data`.
+- **Врачи и отзывы.** Помечены в данных как `demo: true`. Имена, стаж,
+  образование, дипломы и отзывы вымышленные и приведены только ради
+  работоспособного интерфейса.
+- **Цифры на первом экране.** Поле `company.stats` пустое: опыт, количество
+  пациентов и рейтинг не выдуманы. Как только заказчик впишет значения,
+  первый экран сам покажет их вместо текстовых утверждений.
+- **Домен.** `NEXT_PUBLIC_SITE_URL` в `.env` — от него зависят карта сайта,
+  Open Graph и разметка schema.org.
+- **Карта.** `src/components/shared/clinic-map.tsx` содержит заглушку.
+  Провайдер карт подключается заменой содержимого одного этого компонента.
+- **Политика конфиденциальности.** Черновик в `src/app/privacy/page.tsx`
+  описывает фактическое поведение сайта; юридические реквизиты добавляет
+  заказчик.

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" role="img" aria-label="карта">
+  <rect width="1200" height="600" fill="#F1EEEA"/>
+  <rect x="16" y="16" width="1168" height="568" fill="none" stroke="#E5E1DB" stroke-width="1"/>
+  <circle cx="600" cy="276.6" r="78" fill="none" stroke="#0F6B5F" stroke-opacity="0.35" stroke-width="1.5"/>
+  <path d="M 564.9 276.6 L 590.64 303.9 L 639 253.2" fill="none" stroke="#0F6B5F" stroke-opacity="0.55" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="600" y="417" text-anchor="middle" font-family="Segoe UI, system-ui, sans-serif" font-size="35" letter-spacing="1.6" fill="#8A9298">КАРТА</text>
+</svg>
