@@ -22,10 +22,7 @@ export function LocationSection({ locale }: { locale: Locale }) {
         />
 
         <div className="mt-12 grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
-          <ClinicMap
-            locale={locale}
-            className="aspect-16/10 lg:aspect-auto lg:min-h-[420px]"
-          />
+          <ClinicMap className="aspect-16/10 lg:aspect-auto lg:min-h-[420px]" />
 
           <div className="flex flex-col gap-6 rounded-card border border-line bg-milk p-7">
             <div className="flex flex-col gap-5">

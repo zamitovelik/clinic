@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" role="presentation">
+  <rect width="1200" height="900" fill="#F8F6F3"/>
+  <rect x="26" y="26" width="1148" height="848" fill="none" stroke="#E5E1DB" stroke-width="3"/>
+
+  <!-- губы и десна: рамка, в которой читается зубной ряд -->
+  <path d="M 150 450 Q 600 130 1050 450 Q 600 830 150 450 Z" fill="#D99C9A" opacity="0.55"/>
+  <path d="M 150 450 Q 600 130 1050 450 Q 600 830 150 450 Z" fill="none" stroke="#0F6B5F" stroke-opacity="0.18" stroke-width="3"/>
+  <path d="M 150 450 Q 600 130 1050 450 Q 600 830 150 450 Z" fill="#00000010"/>
+
+  <g clip-path="url(#mouth)">
+    <g transform="rotate(0 127 494)"><rect x="79" y="426" width="96" height="136" rx="26.880000000000003" fill="#C9B79A" stroke="#E5E1DB" stroke-width="2"/><rect x="94.36" y="445.04" width="19.200000000000003" height="46.24" rx="9.600000000000001" fill="#FFFFFF" opacity="0.35"/></g>
+    <g transform="rotate(0 229 472.297520661157)"><rect x="181" y="397.5702479338843" width="96" height="149.45454545454544" rx="26.880000000000003" fill="#C9B79A" stroke="#E5E1DB" stroke-width="2"/><rect x="196.36" y="418.49388429752065" width="19.200000000000003" height="50.81454545454545" rx="9.600000000000001" fill="#FFFFFF" opacity="0.35"/></g>
+    <g transform="rotate(0 319 456.28099173553716)"><rect x="283" y="374.8264462809917" width="72" height="162.9090909090909" rx="20.160000000000004" fill="#C9B79A" stroke="#E5E1DB" stroke-width="2"/><rect x="294.52" y="397.63371900826445" width="14.4" height="55.38909090909091" rx="7.2" fill="#FFFFFF" opacity="0.35"/></g>
+    <g transform="rotate(0 392 445.9504132231405)"><rect x="361" y="357.7685950413223" width="62" height="176.36363636363637" rx="17.360000000000003" fill="#C9B79A" stroke="#E5E1DB" stroke-width="2"/><rect x="370.92" y="382.4595041322314" width="12.4" height="59.96363636363637" rx="6.2" fill="#FFFFFF" opacity="0.35"/></g>
+    <g transform="rotate(0 555 442.3471074380165)"><rect x="513" y="340.7107438016529" width="84" height="203.27272727272728" rx="23.520000000000003" fill="#C9B79A" stroke="#E5E1DB" stroke-width="2"/><rect x="526.44" y="369.1689256198347" width="16.8" height="69.11272727272728" rx="8.4" fill="#FFFFFF" opacity="0.35"/></g>
+    <g transform="rotate(0 645 442.3471074380165)"><rect x="603" y="340.7107438016529" width="84" height="203.27272727272728" rx="23.520000000000003" fill="#C9B79A" stroke="#E5E1DB" stroke-width="2"/><rect x="616.44" y="369.1689256198347" width="16.8" height="69.11272727272728" rx="8.4" fill="#FFFFFF" opacity="0.35"/></g>
+    <g transform="rotate(0 732 441.305785123967)"><rect x="693" y="346.39669421487605" width="78" height="189.8181818181818" rx="21.840000000000003" fill="#C9B79A" stroke="#E5E1DB" stroke-width="2"/><rect x="705.48" y="372.9712396694215" width="15.600000000000001" height="64.53818181818183" rx="7.800000000000001" fill="#FFFFFF" opacity="0.35"/></g>
+    <g transform="rotate(0 808 445.9504132231405)"><rect x="777" y="357.7685950413223" width="62" height="176.36363636363637" rx="17.360000000000003" fill="#C9B79A" stroke="#E5E1DB" stroke-width="2"/><rect x="786.92" y="382.4595041322314" width="12.4" height="59.96363636363637" rx="6.2" fill="#FFFFFF" opacity="0.35"/></g>
+    <g transform="rotate(0 881 456.28099173553716)"><rect x="845" y="374.8264462809917" width="72" height="162.9090909090909" rx="20.160000000000004" fill="#C9B79A" stroke="#E5E1DB" stroke-width="2"/><rect x="856.52" y="397.63371900826445" width="14.4" height="55.38909090909091" rx="7.2" fill="#FFFFFF" opacity="0.35"/></g>
+    <g transform="rotate(0 971 472.297520661157)"><rect x="923" y="397.5702479338843" width="96" height="149.45454545454544" rx="26.880000000000003" fill="#C9B79A" stroke="#E5E1DB" stroke-width="2"/><rect x="938.36" y="418.49388429752065" width="19.200000000000003" height="50.81454545454545" rx="9.600000000000001" fill="#FFFFFF" opacity="0.35"/></g>
+    <g transform="rotate(0 1073 494)"><rect x="1025" y="426" width="96" height="136" rx="26.880000000000003" fill="#C9B79A" stroke="#E5E1DB" stroke-width="2"/><rect x="1040.36" y="445.04" width="19.200000000000003" height="46.24" rx="9.600000000000001" fill="#FFFFFF" opacity="0.35"/></g>
+  </g>
+
+  <defs>
+    <clipPath id="mouth">
+      <path d="M 150 450 Q 600 130 1050 450 Q 600 830 150 450 Z"/>
+    </clipPath>
+  </defs>
+</svg>

@@ -148,10 +148,7 @@ export default async function ContactsPage({
             </div>
           </div>
 
-          <ClinicMap
-            locale={locale}
-            className="aspect-4/3 lg:aspect-auto lg:min-h-[540px]"
-          />
+          <ClinicMap className="aspect-4/3 lg:aspect-auto lg:min-h-[540px]" />
         </div>
       </div>
     </>

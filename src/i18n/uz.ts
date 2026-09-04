@@ -11,6 +11,7 @@ export const uz: Dictionary = {
   nav: {
     about: "Klinika haqida",
     services: "Xizmatlar",
+    prices: "Narxlar",
     doctors: "Shifokorlar",
     reviews: "Sharhlar",
     contacts: "Aloqa",
@@ -126,6 +127,9 @@ export const uz: Dictionary = {
     route: "Marshrut qurish",
     routeShort: "Marshrut",
     mapAlt: "Xarita",
+    mapShow: "Xaritani koʻrsatish",
+    mapHint: "Xarita bosilganda yuklanadi — shunda sahifa tezroq ochiladi.",
+    mapOpen: "Yandex Xaritalarda ochish",
     dayOff: "Dam olish kuni",
   },
 
@@ -444,6 +448,59 @@ export const uz: Dictionary = {
       "{name}, {specialty}. Tajriba {experience}. {summary} Dentos Medical klinikasiga onlayn yozilish.",
     serviceDescription:
       "Toshkentdagi Dentos Medical stomatologiyasida {title}. {summary} Shifokorga onlayn yozilish.",
+    pricesTitle: "Narxlar",
+    pricesDescription:
+      "Toshkentdagi {company} stomatologiyasida davolash narxi: terapiya, jarrohlik, implantatsiya, protezlash, ortodontiya, bolalar qabuli, gigiyena va diagnostika.",
+  },
+
+  faq: {
+    eyebrow: "Koʻp beriladigan savollar",
+    title: "Koʻpincha nima soʻraladi",
+    description:
+      "Odatda telefonda aniqlanadigan savollarga qisqa javoblar. Savolingiz bu yerda boʻlmasa — qoʻngʻiroq qiling, javob beramiz.",
+    stillQuestions: "Savollaringiz qoldimi?",
+    asideText:
+      "Administrator yozuv, qabulga tayyorgarlik va davolash muddatlariga oid barcha savollarga javob beradi.",
+    callUs: "Klinikaga qoʻngʻiroq qilish",
+  },
+
+  beforeAfter: {
+    eyebrow: "Oldin va keyin",
+    title: "Davolash nimani oʻzgartiradi",
+    description:
+      "Oldingi va keyingi holatni solishtirish uchun ajratgichni ushlab, yon tomonga suring.",
+    before: "Oldin",
+    after: "Keyin",
+    duration: "Odatda davom etadi",
+    handle: "Solishtirish uchun suring",
+    aboutService: "Ushbu xizmat haqida",
+    demoNotice:
+      "Tasvirlar sxematik: bu klinika ishlarining fotosuratlari emas, balki oʻzgarish mohiyatini koʻrsatuvchi rasm.",
+  },
+
+  prices: {
+    /** «350 000 soʻmdan» — узбекская приставка идёт после суммы. */
+    from: "{amount} {currency}dan",
+    exact: "{amount} {currency}",
+    currency: "soʻm",
+    onRequest: "koʻrikdan keyin",
+    service: "Xizmat",
+    price: "Narxi",
+    heading: "Narxi",
+    allPrices: "Toʻliq narxlar roʻyxati",
+    demoNotice:
+      "Narxlar namoyish uchun. Sayt ishga tushishidan oldin klinika ularni amaldagi narxlar bilan almashtiradi — narxni telefon orqali aniqlashtiring.",
+  },
+
+  pricesPage: {
+    eyebrow: "Narxlar roʻyxati",
+    title: "Davolash narxlari",
+    description:
+      "Ayrim muolajalar narxi koʻrsatilgan. Yakuniy summa ish hajmiga bogʻliq, shuning uchun aniq rejani va narxni shifokor koʻrik va rentgendan keyin aytadi.",
+    contents: "Narxlar boʻlimlari",
+    note: "Roʻyxatda bitta muolaja narxi koʻrsatilgan. Ular nechta kerak boʻlishi faqat koʻrik va rentgendan keyin maʼlum boʻladi — shuning uchun yakuniy summani shifokor qabulda aytadi, telefonda emas.",
+    book: "Qabulga yozilish",
+    toService: "Xizmat haqida batafsil",
   },
 
   units: {

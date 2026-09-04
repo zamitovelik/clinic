@@ -5,9 +5,12 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, Check, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DoctorCard } from "@/components/shared/doctor-card";
+import { DemoNotice } from "@/components/shared/demo-notice";
+import { cheapestPrice, PriceTable } from "@/components/shared/price-table";
 import { CtaSection } from "@/components/home/cta-section";
 import { BookingProvider } from "@/components/appointment/booking-provider";
 import { services } from "@/data/services";
+import { getPricesFor, pricesAreDemo } from "@/data/prices";
 import {
   getBookingDataFor,
   getDoctorsByService,
@@ -84,6 +87,7 @@ export default async function ServicePage({ params }: PageProps) {
   );
 
   const title = pick(service.title, locale);
+  const priceItems = getPricesFor(service.slug);
 
   return (
     <BookingProvider bookings={bookings}>
@@ -111,9 +115,12 @@ export default async function ServicePage({ params }: PageProps) {
                     minutes: service.durationMinutes,
                   })}
                 </span>
-                {service.priceFrom && (
+                {/* Заказчик может вписать свою строку в `priceFrom`; пока её
+                    нет, берём самую низкую цену из прайса этой услуги. */}
+                {(service.priceFrom ?? cheapestPrice(priceItems, locale)) && (
                   <span className="text-ink">
-                    {dict.servicePage.price} {service.priceFrom}
+                    {dict.servicePage.price}{" "}
+                    {service.priceFrom ?? cheapestPrice(priceItems, locale)}
                   </span>
                 )}
               </div>
@@ -197,6 +204,31 @@ export default async function ServicePage({ params }: PageProps) {
             ))}
           </ol>
         </section>
+
+        {priceItems.length > 0 && (
+          <section className="flex flex-col gap-6">
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <h2 className="display text-[28px] sm:text-[34px]">
+                {dict.prices.heading}
+              </h2>
+
+              <NextLink
+                href={localizedPath("/prices", locale)}
+                className="inline-flex items-center gap-1.5 text-sm text-ink-2 transition-colors hover:text-accent"
+              >
+                {dict.prices.allPrices}
+              </NextLink>
+            </div>
+
+            <PriceTable items={priceItems} locale={locale} className="max-w-3xl" />
+
+            {pricesAreDemo && (
+              <DemoNotice className="max-w-3xl">
+                {dict.prices.demoNotice}
+              </DemoNotice>
+            )}
+          </section>
+        )}
 
         {doctors.length > 0 && (
           <section className="flex flex-col gap-6">

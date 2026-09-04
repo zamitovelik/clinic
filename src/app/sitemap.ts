@@ -16,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const paths: { path: string; priority: number }[] = [
     { path: "/", priority: 1 },
     { path: "/services", priority: 0.9 },
+    { path: "/prices", priority: 0.8 },
     { path: "/doctors", priority: 0.9 },
     { path: "/appointment", priority: 0.9 },
     { path: "/about", priority: 0.7 },

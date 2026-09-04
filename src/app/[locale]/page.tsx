@@ -3,12 +3,17 @@ import { Advantages } from "@/components/home/advantages";
 import { ServicesPreview } from "@/components/home/services-preview";
 import { DoctorsPreview } from "@/components/home/doctors-preview";
 import { AboutPreview } from "@/components/home/about-preview";
+import { BeforeAfterSection } from "@/components/home/before-after-section";
 import { ReviewsSection } from "@/components/home/reviews-section";
 import { GallerySection } from "@/components/home/gallery-section";
 import { LocationSection } from "@/components/home/location-section";
+import { FaqSection } from "@/components/home/faq-section";
 import { CtaSection } from "@/components/home/cta-section";
 import { BookingProvider } from "@/components/appointment/booking-provider";
-import { ClinicStructuredData } from "@/components/shared/structured-data";
+import {
+  ClinicStructuredData,
+  FaqStructuredData,
+} from "@/components/shared/structured-data";
 import { gallery } from "@/data/gallery";
 import {
   getBookingDataFor,
@@ -53,11 +58,13 @@ export default async function HomePage({
   return (
     <BookingProvider bookings={bookings}>
       <ClinicStructuredData locale={locale} />
+      <FaqStructuredData locale={locale} />
       <Hero locale={locale} />
       <Advantages locale={locale} />
       <ServicesPreview services={services.slice(0, 6)} locale={locale} />
       <DoctorsPreview doctors={featured} locale={locale} />
       <AboutPreview locale={locale} />
+      <BeforeAfterSection tone="milk" />
       <ReviewsSection
         reviews={reviews.slice(0, 6)}
         doctors={doctors}
@@ -65,6 +72,7 @@ export default async function HomePage({
       />
       <GallerySection items={photos} />
       <LocationSection locale={locale} />
+      <FaqSection locale={locale} tone="milk" />
       <CtaSection locale={locale} />
     </BookingProvider>
   );

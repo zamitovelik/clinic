@@ -12,6 +12,7 @@ export function useNavLinks() {
   return [
     { href: "/about", label: dict.nav.about },
     { href: "/services", label: dict.nav.services },
+    { href: "/prices", label: dict.nav.prices },
     { href: "/doctors", label: dict.nav.doctors },
     { href: "/#reviews", label: dict.nav.reviews },
     { href: "/contacts", label: dict.nav.contacts },

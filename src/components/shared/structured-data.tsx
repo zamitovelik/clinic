@@ -1,4 +1,5 @@
 import { company } from "@/data/company";
+import { faq } from "@/data/faq";
 import type { Doctor } from "@/types/doctor";
 import { localizedPath, pick, type Locale } from "@/i18n";
 
@@ -61,6 +62,32 @@ export function ClinicStructuredData({ locale }: { locale: Locale }) {
         },
         openingHoursSpecification: openingHours,
         sameAs: [company.instagramUrl],
+      }}
+    />
+  );
+}
+
+/**
+ * Разметка частых вопросов.
+ *
+ * Поисковые системы раскрывают такие блоки прямо в выдаче. Ответы берутся
+ * из того же файла, что и видимый раздел, — иначе разметка со временем
+ * разошлась бы с текстом на странице, а это нарушение правил поиска.
+ */
+export function FaqStructuredData({ locale }: { locale: Locale }) {
+  return (
+    <JsonLd
+      data={{
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: faq.map((item) => ({
+          "@type": "Question",
+          name: pick(item.question, locale),
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: pick(item.answer, locale),
+          },
+        })),
       }}
     />
   );
