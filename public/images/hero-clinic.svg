@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="900" height="1100" viewBox="0 0 900 1100" role="img" aria-label="фото клиники">
   <rect width="900" height="1100" fill="#F8F6F3"/>
-  <rect x="16" y="16" width="868" height="1068" fill="none" stroke="#E5E1DB" stroke-width="1"/>
-  <circle cx="450" cy="514.9" r="117" fill="none" stroke="#0F6B5F" stroke-opacity="0.35" stroke-width="1.5"/>
-  <path d="M 397.35 514.9 L 435.96 555.85 L 508.5 479.8" fill="none" stroke="#0F6B5F" stroke-opacity="0.55" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-  <text x="450" y="725.5" text-anchor="middle" font-family="Segoe UI, system-ui, sans-serif" font-size="26" letter-spacing="1.6" fill="#8A9298">ФОТО КЛИНИКИ</text>
+  <rect x="27" y="27" width="846" height="1046" fill="none" stroke="#E5E1DB" stroke-width="4.7368421052631575"/>
+  <circle cx="450" cy="502.75" r="135" fill="none" stroke="#0F6B5F" stroke-opacity="0.4" stroke-width="4.7368421052631575"/>
+  <path d="M 389.25 502.75 L 433.8 550 L 517.5 462.25" fill="none" stroke="#0F6B5F" stroke-opacity="0.65" stroke-width="7.578947368421052" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="450" y="732.25" text-anchor="middle" font-family="Segoe UI, system-ui, sans-serif" font-size="64" letter-spacing="5.1" fill="#79828A">ФОТО КЛИНИКИ</text>
 </svg>

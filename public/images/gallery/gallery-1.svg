@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="750" viewBox="0 0 1000 750" role="img" aria-label="фото 1">
   <rect width="1000" height="750" fill="#F8F6F3"/>
-  <rect x="16" y="16" width="968" height="718" fill="none" stroke="#E5E1DB" stroke-width="1"/>
-  <circle cx="500" cy="345.75" r="97.5" fill="none" stroke="#0F6B5F" stroke-opacity="0.35" stroke-width="1.5"/>
-  <path d="M 456.125 345.75 L 488.3 379.875 L 548.75 316.5" fill="none" stroke="#0F6B5F" stroke-opacity="0.55" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-  <text x="500" y="521.25" text-anchor="middle" font-family="Segoe UI, system-ui, sans-serif" font-size="29" letter-spacing="1.6" fill="#8A9298">ФОТО 1</text>
+  <rect x="23" y="23" width="954" height="704" fill="none" stroke="#E5E1DB" stroke-width="3.9473684210526314"/>
+  <circle cx="500" cy="335.625" r="112.5" fill="none" stroke="#0F6B5F" stroke-opacity="0.4" stroke-width="3.9473684210526314"/>
+  <path d="M 449.375 335.625 L 486.5 375 L 556.25 301.875" fill="none" stroke="#0F6B5F" stroke-opacity="0.65" stroke-width="6.315789473684211" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="500" y="526.875" text-anchor="middle" font-family="Segoe UI, system-ui, sans-serif" font-size="54" letter-spacing="4.3" fill="#79828A">ФОТО 1</text>
 </svg>

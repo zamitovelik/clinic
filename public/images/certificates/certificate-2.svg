@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="794" height="1123" viewBox="0 0 794 1123" role="img" aria-label="документ">
   <rect width="794" height="1123" fill="#F1EEEA"/>
-  <rect x="16" y="16" width="762" height="1091" fill="none" stroke="#E5E1DB" stroke-width="1"/>
-  <circle cx="397" cy="530.534" r="103.22" fill="none" stroke="#0F6B5F" stroke-opacity="0.35" stroke-width="1.5"/>
-  <path d="M 350.551 530.534 L 384.6136 566.661 L 448.61 499.568" fill="none" stroke="#0F6B5F" stroke-opacity="0.55" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-  <text x="397" y="716.3299999999999" text-anchor="middle" font-family="Segoe UI, system-ui, sans-serif" font-size="23" letter-spacing="1.6" fill="#8A9298">ДОКУМЕНТ</text>
+  <rect x="24" y="24" width="746" height="1075" fill="none" stroke="#E5E1DB" stroke-width="4.178947368421053"/>
+  <circle cx="397" cy="519.815" r="119.1" fill="none" stroke="#0F6B5F" stroke-opacity="0.4" stroke-width="4.178947368421053"/>
+  <path d="M 343.405 519.815 L 382.708 561.5 L 456.55 484.08500000000004" fill="none" stroke="#0F6B5F" stroke-opacity="0.65" stroke-width="6.686315789473685" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="397" y="722.285" text-anchor="middle" font-family="Segoe UI, system-ui, sans-serif" font-size="57" letter-spacing="4.6" fill="#79828A">ДОКУМЕНТ</text>
 </svg>

@@ -52,8 +52,9 @@ export function GallerySection({ items }: { items: GalleryItem[] }) {
           description="Кабинеты, оборудование и зоны, где вы проведёте время до и во время приёма."
         />
 
-        {/* Первая карточка крупнее остальных: сетка не выглядит однообразной,
-            и взгляд получает точку входа. */}
+        {/* Первая карточка шире остальных: сетка не выглядит однообразной,
+            и взгляд получает точку входа. Соотношение у всех одинаковое —
+            иначе кадрирование срезало бы края фотографии. */}
         <div className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
           {items.map((item, index) => (
             <button
@@ -62,8 +63,8 @@ export function GallerySection({ items }: { items: GalleryItem[] }) {
               onClick={() => setOpenIndex(index)}
               aria-label={`Открыть фотографию: ${item.caption}`}
               className={cn(
-                "group relative overflow-hidden rounded-card bg-mist",
-                index === 0 ? "col-span-2 row-span-2 aspect-square" : "aspect-4/3",
+                "group relative aspect-4/3 overflow-hidden rounded-card bg-mist",
+                index === 0 && "col-span-2",
               )}
             >
               <Image
