@@ -1,0 +1,174 @@
+"use client";
+
+import { useMemo, useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useI18n } from "@/i18n/context";
+import { fill } from "@/i18n";
+import { formatMonth, weekdayShort } from "@/i18n/format";
+import type { ScheduleDay } from "@/types/schedule";
+import {
+  daysInMonth,
+  firstWeekdayOfMonth,
+  monthKeyOf,
+  shiftMonth,
+} from "@/lib/format";
+import { cn } from "@/lib/cn";
+
+/**
+ * Календарь выбора дня.
+ *
+ * Показывает месяц целиком, но выбрать можно только дни внутри горизонта
+ * записи, в которые врач принимает и есть свободное время. Остальные дни
+ * видны, но недоступны — так пациент понимает, что расписание существует,
+ * а не что календарь сломан.
+ *
+ * Сам по себе шаг не образует: время выбирается рядом, на том же экране
+ * (см. `StepDateTime`).
+ */
+export function DatePicker({
+  days,
+  selected,
+  onSelect,
+}: {
+  days: ScheduleDay[];
+  selected: string | null;
+  onSelect: (date: string) => void;
+}) {
+  const { dict } = useI18n();
+
+  const byDate = useMemo(
+    () => new Map(days.map((day) => [day.date, day])),
+    [days],
+  );
+
+  const firstDate = days[0]?.date;
+  const lastDate = days[days.length - 1]?.date;
+
+  const [month, setMonth] = useState(() =>
+    monthKeyOf(selected ?? firstDate ?? ""),
+  );
+
+  if (!firstDate || !lastDate) {
+    return (
+      <p className="rounded-card border border-dashed border-line-strong p-6 text-center text-sm text-ink-2">
+        {dict.stepDate.noSchedule}
+      </p>
+    );
+  }
+
+  const canGoBack = month > monthKeyOf(firstDate);
+  const canGoForward = month < monthKeyOf(lastDate);
+
+  const total = daysInMonth(month);
+  const leading = firstWeekdayOfMonth(month) - 1;
+
+  const cells: (string | null)[] = [
+    ...Array.from({ length: leading }, () => null),
+    ...Array.from(
+      { length: total },
+      (_, index) => `${month}-${String(index + 1).padStart(2, "0")}`,
+    ),
+  ];
+
+  return (
+    <div className="rounded-card border border-line bg-paper p-4 sm:p-5">
+      <div className="mb-4 flex items-center justify-between gap-4">
+        <button
+          type="button"
+          onClick={() => setMonth(shiftMonth(month, -1))}
+          disabled={!canGoBack}
+          aria-label={dict.stepDate.prevMonth}
+          className="rounded-pill p-2 text-ink-2 transition-colors hover:bg-milk hover:text-ink disabled:pointer-events-none disabled:opacity-30"
+        >
+          <ChevronLeft className="h-5 w-5" aria-hidden />
+        </button>
+
+        <p aria-live="polite" className="text-[16px] font-medium text-ink">
+          {formatMonth(month, dict)}
+        </p>
+
+        <button
+          type="button"
+          onClick={() => setMonth(shiftMonth(month, 1))}
+          disabled={!canGoForward}
+          aria-label={dict.stepDate.nextMonth}
+          className="rounded-pill p-2 text-ink-2 transition-colors hover:bg-milk hover:text-ink disabled:pointer-events-none disabled:opacity-30"
+        >
+          <ChevronRight className="h-5 w-5" aria-hidden />
+        </button>
+      </div>
+
+      <div className="grid grid-cols-7 gap-1 sm:gap-1.5">
+        {[1, 2, 3, 4, 5, 6, 7].map((isoDay) => (
+          <div
+            key={isoDay}
+            className="pb-2 text-center text-[12px] font-medium text-ink-3"
+          >
+            {weekdayShort(isoDay, dict)}
+          </div>
+        ))}
+
+        {cells.map((date, index) => {
+          if (!date) return <div key={`empty-${index}`} aria-hidden />;
+
+          const day = byDate.get(date);
+          const available = Boolean(day?.isWorking && day.freeCount > 0);
+          const isSelected = selected === date;
+          const dayNumber = Number(date.slice(8));
+
+          return (
+            <button
+              key={date}
+              type="button"
+              disabled={!available}
+              onClick={() => onSelect(date)}
+              aria-pressed={isSelected}
+              aria-label={
+                available
+                  ? fill(dict.stepDate.dayFree, {
+                      day: dayNumber,
+                      count: day?.freeCount ?? 0,
+                    })
+                  : fill(dict.stepDate.dayBusy, { day: dayNumber })
+              }
+              className={cn(
+                "flex aspect-square flex-col items-center justify-center gap-0.5 rounded-lg text-[14px] transition-colors tabular",
+                isSelected && "bg-accent text-white",
+                !isSelected &&
+                  available &&
+                  "bg-milk text-ink hover:bg-accent-soft hover:text-accent",
+                !available && "text-ink-3/50",
+              )}
+            >
+              {dayNumber}
+              {/* Точка под числом показывает, что в этот день есть время —
+                  её видно быстрее, чем цифру количества слотов. */}
+              <span
+                aria-hidden
+                className={cn(
+                  "h-1 w-1 rounded-full",
+                  available
+                    ? isSelected
+                      ? "bg-white"
+                      : "bg-accent"
+                    : "bg-transparent",
+                )}
+              />
+            </button>
+          );
+        })}
+      </div>
+
+      <p className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[13px] text-ink-3">
+        <span className="flex items-center gap-2">
+          <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-accent" />
+          {dict.stepDate.legendFree}
+        </span>
+        <span className="flex items-center gap-2">
+          <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-line-strong" />
+          {dict.stepDate.legendNone}
+        </span>
+      </p>
+    </div>
+  );
+}

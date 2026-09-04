@@ -58,7 +58,7 @@ export function StepPatient() {
     }
 
     setErrors({});
-    goTo(6);
+    goTo(5);
   }
 
   return (

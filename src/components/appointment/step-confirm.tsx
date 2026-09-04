@@ -50,9 +50,9 @@ export function StepConfirm({
         : "—",
       step: 3,
     },
-    { label: dict.stepConfirm.time, value: draft.time ?? "—", step: 4 },
-    { label: dict.stepConfirm.patient, value: draft.patientName || "—", step: 5 },
-    { label: dict.stepConfirm.phone, value: draft.patientPhone || "—", step: 5 },
+    { label: dict.stepConfirm.time, value: draft.time ?? "—", step: 3 },
+    { label: dict.stepConfirm.patient, value: draft.patientName || "—", step: 4 },
+    { label: dict.stepConfirm.phone, value: draft.patientPhone || "—", step: 4 },
   ];
 
   const canEdit = (step: number) =>

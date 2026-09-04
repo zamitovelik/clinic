@@ -219,6 +219,7 @@ export const uz: Dictionary = {
   steps: {
     service: "Xizmat",
     doctor: "Shifokor",
+    datetime: "Sana va vaqt",
     date: "Sana",
     time: "Vaqt",
     patient: "Maʼlumotlar",
@@ -249,7 +250,7 @@ export const uz: Dictionary = {
   stepDate: {
     title: "Qachon sizga qulay?",
     subtitle:
-      "Boʻsh vaqt bor kunlar mavjud. Yozuv {days} kun oldinga ochiq.",
+      "Kunni tanlang — boʻsh vaqt darhol taqvim ostida chiqadi. Yozuv {days} oldinga ochiq.",
     prevMonth: "Oldingi oy",
     nextMonth: "Keyingi oy",
     legendFree: "Boʻsh vaqt bor",
@@ -267,7 +268,8 @@ export const uz: Dictionary = {
     morning: "Ertalab",
     day: "Kunduzi",
     evening: "Kechqurun",
-    chooseDate: "Avval sanani tanlang.",
+    chooseDate: "Taqvimdan kunni tanlang.",
+    heading: "Boʻsh vaqt",
     allBooked:
       "Bu kuni hammasi band. Boshqa sanani tanlang — bir qadam orqaga qaytish mumkin.",
     legend: "Vaqtni tanlash",
@@ -447,6 +449,7 @@ export const uz: Dictionary = {
   units: {
     // В узбекском число не меняет форму слова, поэтому все три варианта совпадают.
     years: ["yil", "yil", "yil"],
+    days: ["kun", "kun", "kun"],
     minutes: "daqiqa",
   },
 

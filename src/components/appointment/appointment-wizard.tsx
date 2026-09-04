@@ -5,8 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import { Stepper } from "./stepper";
 import { StepService } from "./step-service";
 import { StepDoctor } from "./step-doctor";
-import { StepDate } from "./step-date";
-import { StepTime } from "./step-time";
+import { StepDateTime } from "./step-datetime";
 import { StepPatient } from "./step-patient";
 import { StepConfirm } from "./step-confirm";
 import { SuccessScreen } from "./success-screen";
@@ -125,10 +124,9 @@ export function AppointmentWizard({
       <div className="flex flex-col gap-6">
         {step === 1 && <StepService services={services} />}
         {step === 2 && <StepDoctor doctors={doctorsForService} />}
-        {step === 3 && <StepDate days={activeDays} />}
-        {step === 4 && <StepTime days={activeDays} />}
-        {step === 5 && <StepPatient />}
-        {step === 6 && (
+        {step === 3 && <StepDateTime days={activeDays} />}
+        {step === 4 && <StepPatient />}
+        {step === 5 && (
           <StepConfirm services={flatServices} doctors={flatDoctors} />
         )}
 

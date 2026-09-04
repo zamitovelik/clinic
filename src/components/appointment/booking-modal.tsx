@@ -4,8 +4,7 @@ import { useEffect, useMemo, useRef } from "react";
 import Image from "next/image";
 import { ArrowLeft, Check } from "lucide-react";
 import { Modal } from "@/components/ui/modal";
-import { StepDate } from "./step-date";
-import { StepTime } from "./step-time";
+import { StepDateTime } from "./step-datetime";
 import { StepPatient } from "./step-patient";
 import { StepConfirm } from "./step-confirm";
 import { AppointmentProvider, useAppointment } from "@/stores/appointment-store";
@@ -30,10 +29,9 @@ import { cn } from "@/lib/cn";
 
 /** Шаги внутри окна: нумерация общего мастера, подписи — короткие. */
 const MODAL_STEPS = [
-  { id: 3, key: "date" },
-  { id: 4, key: "time" },
-  { id: 5, key: "patient" },
-  { id: 6, key: "confirmShort" },
+  { id: 3, key: "datetime" },
+  { id: 4, key: "patient" },
+  { id: 5, key: "confirmShort" },
 ] as const;
 
 export function BookingModal({
@@ -246,15 +244,14 @@ function BookingFlow({
 
       <ProgressLine step={step} onGoTo={goTo} draft={draft} />
 
-      {step === 3 && <StepDate days={days} />}
-      {step === 4 && <StepTime days={days} />}
-      {step === 5 && <StepPatient />}
-      {step === 6 && (
+      {step === 3 && <StepDateTime days={days} />}
+      {step === 4 && <StepPatient />}
+      {step === 5 && (
         <StepConfirm
           services={services}
           doctors={[doctor]}
           // Услугу меняем строкой выше, врач здесь один — править нечего.
-          editableSteps={[3, 4, 5]}
+          editableSteps={[3, 4]}
         />
       )}
 
@@ -283,7 +280,7 @@ function ProgressLine({
   onGoTo: (step: number) => void;
 }) {
   const { dict } = useI18n();
-  const reachable = !draft.date ? 3 : !draft.time ? 4 : 6;
+  const reachable = !draft.date || !draft.time ? 3 : 5;
 
   return (
     <nav aria-label={dict.booking.stepsNav}>

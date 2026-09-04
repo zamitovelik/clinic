@@ -24,6 +24,9 @@ export function pluralYears(count: number, dict: Dictionary): string {
   return `${count} ${plural(count, dict.units.years)}`;
 }
 
+export function pluralDays(count: number, dict: Dictionary): string {
+  return count + " " + plural(count, dict.units.days);
+}
 /** `2026-09-12` → `12 сентября` / `12 sentabr`. */
 export function formatDate(dateKey: string, dict: Dictionary): string {
   const [year, month, day] = dateKey.split("-").map(Number);

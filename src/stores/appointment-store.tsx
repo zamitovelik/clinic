@@ -22,10 +22,9 @@ import type { Appointment, AppointmentDraft } from "@/types/appointment";
 export const STEPS = [
   { id: 1, key: "service" },
   { id: 2, key: "doctor" },
-  { id: 3, key: "date" },
-  { id: 4, key: "time" },
-  { id: 5, key: "patient" },
-  { id: 6, key: "confirm" },
+  { id: 3, key: "datetime" },
+  { id: 4, key: "patient" },
+  { id: 5, key: "confirm" },
 ] as const;
 
 export type StepKey = (typeof STEPS)[number]["key"];
@@ -112,14 +111,14 @@ function reducer(state: State, action: Action): State {
       };
 
     case "date":
+      // Шаг не меняется: время выбирается на том же экране, под календарём.
       return {
         ...state,
-        step: 4,
         draft: { ...state.draft, date: action.date, time: null },
       };
 
     case "time":
-      return { ...state, step: 5, draft: { ...state.draft, time: action.time } };
+      return { ...state, step: 4, draft: { ...state.draft, time: action.time } };
 
     case "patient":
       return { ...state, draft: { ...state.draft, ...action.patch } };
@@ -186,11 +185,9 @@ export function AppointmentProvider({
       ? 1
       : !draft.doctorSlug && !draft.anyDoctor
         ? 2
-        : !draft.date
+        : !draft.date || !draft.time
           ? 3
-          : !draft.time
-            ? 4
-            : 5;
+          : 4;
 
     return { step, draft, submitting: false, error: null, result: null };
   });
@@ -231,13 +228,11 @@ export function AppointmentProvider({
       ? 1
       : !draft.doctorSlug && !draft.anyDoctor
         ? 2
-        : !draft.date
+        : !draft.date || !draft.time
           ? 3
-          : !draft.time
-            ? 4
-            : draft.patientName && draft.patientPhone
-              ? 6
-              : 5;
+          : draft.patientName && draft.patientPhone
+            ? 5
+            : 4;
 
     return {
       ...state,
