@@ -27,6 +27,8 @@ export interface Service {
   includes: Localized<string[]>;
   /** Этапы лечения — показываются нумерованным списком. */
   stages: { title: Localized; text: Localized }[];
+  /** Имя иконки из lucide-react. Показывается в карточке услуги. */
+  icon: string;
   /** Ориентировочная длительность приёма, минуты. */
   durationMinutes: number;
   priceFrom?: string;

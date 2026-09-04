@@ -47,6 +47,7 @@ export const serviceCategories: ServiceCategory[] = [
 export const services: Service[] = [
   {
     id: "therapy",
+    icon: "syringe",
     slug: "terapiya",
     categorySlug: "treatment",
     title: { ru: "Терапия", uz: "Terapiya" },
@@ -109,6 +110,7 @@ export const services: Service[] = [
   },
   {
     id: "surgery",
+    icon: "scissors",
     slug: "hirurgiya",
     categorySlug: "treatment",
     title: { ru: "Хирургия", uz: "Jarrohlik" },
@@ -171,6 +173,7 @@ export const services: Service[] = [
   },
   {
     id: "prosthetics",
+    icon: "crown",
     slug: "ortopediya",
     categorySlug: "restoration",
     title: { ru: "Ортопедия", uz: "Ortopediya" },
@@ -233,6 +236,7 @@ export const services: Service[] = [
   },
   {
     id: "implantation",
+    icon: "bolt",
     slug: "implantaciya",
     categorySlug: "restoration",
     title: { ru: "Имплантация", uz: "Implantatsiya" },
@@ -295,6 +299,7 @@ export const services: Service[] = [
   },
   {
     id: "aesthetic",
+    icon: "sparkles",
     slug: "esteticheskaya-stomatologiya",
     categorySlug: "restoration",
     title: { ru: "Эстетическая стоматология", uz: "Estetik stomatologiya" },
@@ -357,6 +362,7 @@ export const services: Service[] = [
   },
   {
     id: "orthodontics",
+    icon: "ruler",
     slug: "ortodontiya",
     categorySlug: "alignment",
     title: { ru: "Ортодонтия", uz: "Ortodontiya" },
@@ -419,6 +425,7 @@ export const services: Service[] = [
   },
   {
     id: "pediatric",
+    icon: "baby",
     slug: "detskaya-stomatologiya",
     categorySlug: "prevention",
     title: { ru: "Детская стоматология", uz: "Bolalar stomatologiyasi" },
@@ -481,6 +488,7 @@ export const services: Service[] = [
   },
   {
     id: "hygiene",
+    icon: "brush",
     slug: "professionalnaya-gigiena",
     categorySlug: "prevention",
     title: { ru: "Профессиональная гигиена", uz: "Professional gigiyena" },
@@ -543,6 +551,7 @@ export const services: Service[] = [
   },
   {
     id: "diagnostics",
+    icon: "scan-line",
     slug: "diagnostika",
     categorySlug: "prevention",
     title: { ru: "Диагностика", uz: "Diagnostika" },

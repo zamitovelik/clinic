@@ -72,15 +72,20 @@ export function DoctorCard({
           {pick(doctor.shortDescription, locale)}
         </p>
 
-        <div className="mt-auto flex items-center gap-2 pt-3">
-          {/* z-10 поднимает кнопку над растянутой ссылкой карточки: клик по
+        <div className="mt-auto flex flex-wrap items-center gap-2 pt-3">
+          {/* z-10 поднимает кнопки над растянутой ссылкой карточки: клик по
               «Записаться» должен открывать окно, а не уводить на профиль. */}
           <BookingTrigger doctorSlug={doctor.slug} className="relative z-10">
             {dict.doctorCard.book}
           </BookingTrigger>
-          <span className="ml-auto text-ink-3 transition-colors group-hover:text-accent">
-            <ArrowUpRight className="h-4 w-4" aria-hidden />
-          </span>
+
+          <NextLink
+            href={localizedPath(`/doctors/${doctor.slug}`, locale)}
+            className="relative z-10 inline-flex items-center gap-1.5 rounded-pill px-3 py-2 text-[13px] font-medium text-ink-2 transition-colors hover:bg-milk hover:text-accent"
+          >
+            {dict.common.more}
+            <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
+          </NextLink>
         </div>
       </div>
     </article>

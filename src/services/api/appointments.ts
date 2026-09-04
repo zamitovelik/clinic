@@ -1,4 +1,5 @@
 import type { Appointment, CreateAppointmentInput } from "@/types/appointment";
+import { rememberAppointment } from "@/data/appointments";
 import { ApiError, delay } from "./client";
 
 /**
@@ -26,10 +27,16 @@ export async function createAppointment(
   if (!input.patientName.trim()) throw new ApiError("name", "nameRequired");
   if (!input.patientPhone.trim()) throw new ApiError("phone", "phoneRequired");
 
-  return {
+  const appointment: Appointment = {
     ...input,
     id: `demo-${Date.now().toString(36)}`,
     createdAt: new Date().toISOString(),
     status: "pending",
   };
+
+  // Отправлять пока некуда, поэтому запись остаётся в памяти процесса —
+  // так на демонстрации видно, что форма собрала все поля.
+  rememberAppointment(appointment);
+
+  return appointment;
 }

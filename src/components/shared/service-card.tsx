@@ -1,8 +1,33 @@
 import NextLink from "next/link";
-import { ArrowRight } from "lucide-react";
+import {
+  ArrowRight,
+  Baby,
+  Bolt,
+  Brush,
+  Crown,
+  Ruler,
+  ScanLine,
+  Scissors,
+  Sparkles,
+  Syringe,
+  type LucideIcon,
+} from "lucide-react";
 import type { Service } from "@/types/service";
 import { cn } from "@/lib/cn";
 import { getDictionary, localizedPath, pick, type Locale } from "@/i18n";
+
+/** Имена иконок из данных сопоставляются с компонентами здесь, а не в data. */
+const ICONS: Record<string, LucideIcon> = {
+  syringe: Syringe,
+  scissors: Scissors,
+  crown: Crown,
+  bolt: Bolt,
+  sparkles: Sparkles,
+  ruler: Ruler,
+  baby: Baby,
+  brush: Brush,
+  "scan-line": ScanLine,
+};
 
 /** Карточка услуги для сетки каталога (раздел 8 ТЗ). */
 export function ServiceCard({
@@ -15,6 +40,7 @@ export function ServiceCard({
   className?: string;
 }) {
   const dict = getDictionary(locale);
+  const Icon = ICONS[service.icon] ?? Sparkles;
 
   return (
     <article
@@ -24,6 +50,10 @@ export function ServiceCard({
         className,
       )}
     >
+      <span className="mb-1 flex h-11 w-11 items-center justify-center rounded-pill bg-accent-soft text-accent transition-colors group-hover:bg-paper">
+        <Icon className="h-5 w-5" strokeWidth={1.6} aria-hidden />
+      </span>
+
       <h3 className="text-[19px] font-semibold text-ink">
         <NextLink
           href={localizedPath(`/services/${service.slug}`, locale)}
