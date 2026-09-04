@@ -121,7 +121,9 @@ export function AppointmentWizard({
     <div ref={topRef} className="flex scroll-mt-28 flex-col gap-8">
       <Stepper />
 
-      <div className="flex flex-col gap-6">
+      {/* Ключ по номеру шага: экран появляется заново, а не подменяется
+          на месте — так видно, что мастер шагнул дальше. */}
+      <div key={step} className="flex animate-fade-in flex-col gap-6">
         {step === 1 && <StepService services={services} />}
         {step === 2 && <StepDoctor doctors={doctorsForService} />}
         {step === 3 && <StepDateTime days={activeDays} />}

@@ -80,7 +80,7 @@ export function GallerySection({ items }: { items: GalleryPhoto[] }) {
                 alt={item.caption}
                 fill
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-105"
+                className="object-cover transition-transform duration-700 ease-soft group-hover:scale-105"
               />
               <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-deep/70 to-transparent p-3 text-left text-[13px] text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                 {item.caption}

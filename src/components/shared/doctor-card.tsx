@@ -28,7 +28,9 @@ export function DoctorCard({
     <article
       className={cn(
         "group relative flex flex-col overflow-hidden rounded-card border border-line bg-paper",
-        "transition-shadow duration-300 hover:shadow-lift",
+        // Карточка чуть приподнимается вместе с тенью — одно движение
+        // вместо тени, которая появляется сама по себе.
+        "transition-[box-shadow,transform] duration-400 hover:-translate-y-1 hover:shadow-lift",
         className,
       )}
     >
@@ -38,7 +40,7 @@ export function DoctorCard({
           alt={`${doctor.name} — ${specialty}`}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.03]"
+          className="object-cover transition-transform duration-700 ease-soft group-hover:scale-[1.03]"
         />
       </div>
 

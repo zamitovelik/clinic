@@ -244,16 +244,19 @@ function BookingFlow({
 
       <ProgressLine step={step} onGoTo={goTo} draft={draft} />
 
-      {step === 3 && <StepDateTime days={days} />}
-      {step === 4 && <StepPatient />}
-      {step === 5 && (
-        <StepConfirm
-          services={services}
-          doctors={[doctor]}
-          // Услугу меняем строкой выше, врач здесь один — править нечего.
-          editableSteps={[3, 4]}
-        />
-      )}
+      {/* Ключ по шагу: содержимое проявляется заново при переходе. */}
+      <div key={step} className="flex animate-fade-in flex-col gap-6">
+        {step === 3 && <StepDateTime days={days} />}
+        {step === 4 && <StepPatient />}
+        {step === 5 && (
+          <StepConfirm
+            services={services}
+            doctors={[doctor]}
+            // Услугу меняем строкой выше, врач здесь один — править нечего.
+            editableSteps={[3, 4]}
+          />
+        )}
+      </div>
 
       {step > 3 && (
         <button

@@ -146,6 +146,8 @@ export function SiteHeader() {
             id="mobile-menu"
             className={cn(
               "fixed inset-x-0 bottom-0 z-90 overflow-y-auto border-t border-line bg-paper lg:hidden",
+              // Меню опускается из-под шапки, а не возникает на месте.
+              "animate-slide-down",
               // Меню начинается ровно под шапкой, а её высота зависит от прокрутки.
               compact ? "top-16" : "top-20",
             )}

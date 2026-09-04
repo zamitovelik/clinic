@@ -67,6 +67,9 @@ export function Modal({
     <div
       className={cn(
         "fixed inset-0 z-100 flex justify-center bg-deep/95",
+        // Затемнение проявляется, содержимое приезжает следом — окно
+        // не выпрыгивает на человека целиком.
+        "animate-fade-in",
         isPanel ? "items-end p-0 sm:items-center sm:p-6" : "items-center p-4 sm:p-8",
       )}
       role="dialog"
@@ -93,6 +96,9 @@ export function Modal({
           className={cn(
             "flex max-h-[92dvh] w-full flex-col overflow-hidden bg-paper",
             "rounded-t-[20px] sm:max-h-[88dvh] sm:max-w-2xl sm:rounded-card",
+            // На телефоне панель выезжает снизу, на широком экране —
+            // проявляется по центру: движение совпадает с тем, откуда она берётся.
+            "animate-slide-up sm:animate-zoom-in",
             className,
           )}
         >
@@ -114,7 +120,12 @@ export function Modal({
           </div>
         </div>
       ) : (
-        <div className={cn("max-h-full w-full max-w-4xl overflow-auto", className)}>
+        <div
+          className={cn(
+            "max-h-full w-full max-w-4xl animate-zoom-in overflow-auto",
+            className,
+          )}
+        >
           {children}
         </div>
       )}

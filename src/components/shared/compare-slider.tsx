@@ -3,6 +3,7 @@
 import { useCallback, useRef, useState } from "react";
 import Image from "next/image";
 import { MoveHorizontal } from "lucide-react";
+import { cn } from "@/lib/cn";
 
 /**
  * Сравнение двух изображений шторкой.
@@ -31,7 +32,14 @@ export function CompareSlider({
   alt: string;
 }) {
   const [position, setPosition] = useState(50);
+  // Во время перетаскивания плавность мешает: шторка отставала бы от пальца.
+  // Зато при нажатии в стороне и при шаге стрелками она доезжает сама.
+  const [dragging, setDragging] = useState(false);
   const frameRef = useRef<HTMLDivElement>(null);
+
+  const glide = dragging
+    ? undefined
+    : "transition-[clip-path,left] duration-300 ease-soft";
 
   const moveTo = useCallback((clientX: number) => {
     const frame = frameRef.current;
@@ -51,7 +59,14 @@ export function CompareSlider({
 
   function onPointerMove(event: React.PointerEvent<HTMLDivElement>) {
     if (!event.currentTarget.hasPointerCapture(event.pointerId)) return;
+    // Плавность выключаем только когда палец действительно поехал:
+    // от одиночного нажатия шторка должна доехать сама.
+    if (!dragging) setDragging(true);
     moveTo(event.clientX);
+  }
+
+  function onPointerUp() {
+    setDragging(false);
   }
 
   function onKeyDown(event: React.KeyboardEvent) {
@@ -71,6 +86,8 @@ export function CompareSlider({
       ref={frameRef}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
+      onPointerUp={onPointerUp}
+      onPointerCancel={onPointerUp}
       className="relative aspect-4/3 w-full touch-pan-y overflow-hidden rounded-card border border-line bg-mist select-none"
     >
       <Image
@@ -84,7 +101,7 @@ export function CompareSlider({
 
       {/* Слой «до» лежит поверх и обрезается по позиции разделителя. */}
       <div
-        className="absolute inset-0"
+        className={cn("absolute inset-0", glide)}
         style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}
       >
         <Image
@@ -112,7 +129,11 @@ export function CompareSlider({
         aria-valuenow={Math.round(position)}
         aria-valuetext={`${Math.round(position)}%`}
         onKeyDown={onKeyDown}
-        className="absolute inset-y-0 -ml-5 flex w-10 cursor-ew-resize items-center justify-center rounded-card focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        className={cn(
+          "absolute inset-y-0 -ml-5 flex w-10 cursor-ew-resize items-center justify-center rounded-card",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+          glide,
+        )}
         style={{ left: `${position}%` }}
       >
         <span aria-hidden className="absolute inset-y-0 w-0.5 bg-paper" />

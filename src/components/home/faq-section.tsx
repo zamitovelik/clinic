@@ -45,7 +45,9 @@ export function FaqSection({
                     />
                   </summary>
 
-                  <div className="px-5 pb-6 sm:px-7">
+                  {/* details-body — зацепка для анимации раскрытия
+                      из globals.css, а не оформление. */}
+                  <div className="details-body px-5 pb-6 sm:px-7">
                     <p className="max-w-2xl text-[15px] leading-relaxed text-ink-2">
                       {pick(item.answer, locale)}
                     </p>

@@ -39,7 +39,10 @@ export function Button({
     <Component
       className={cn(
         "inline-flex items-center justify-center rounded-pill font-medium whitespace-nowrap",
-        "transition-colors duration-200 disabled:pointer-events-none disabled:opacity-45",
+        // Лёгкое проседание под нажатием: кнопка отзывается сразу, ещё до
+        // того, как страница успеет отреагировать.
+        "transition-[color,background-color,border-color,box-shadow,transform]",
+        "active:scale-[0.98] disabled:pointer-events-none disabled:opacity-45",
         VARIANTS[variant],
         SIZES[size],
         className,

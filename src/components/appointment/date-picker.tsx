@@ -98,7 +98,8 @@ export function DatePicker({
         </button>
       </div>
 
-      <div className="grid grid-cols-7 gap-1 sm:gap-1.5">
+      {/* Ключ по месяцу: сетка чисел проявляется заново при перелистывании. */}
+      <div key={month} className="grid animate-fade-in grid-cols-7 gap-1 sm:gap-1.5">
         {[1, 2, 3, 4, 5, 6, 7].map((isoDay) => (
           <div
             key={isoDay}

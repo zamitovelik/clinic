@@ -46,7 +46,8 @@ export function ServiceCard({
     <article
       className={cn(
         "group relative flex flex-col gap-3 rounded-card border border-line bg-paper p-6",
-        "transition-colors duration-300 hover:border-accent-line hover:bg-accent-soft/40",
+        "transition-[color,background-color,border-color,box-shadow,transform] duration-400",
+        "hover:-translate-y-1 hover:border-accent-line hover:bg-accent-soft/40 hover:shadow-soft",
         className,
       )}
     >

@@ -72,7 +72,11 @@ export function StepDateTime({ days }: { days: ScheduleDay[] }) {
         <DatePicker days={days} selected={draft.date} onSelect={chooseDate} />
 
         <div ref={timesRef} className="scroll-mt-24">
-          <TimeGrid day={day} selected={draft.time} onSelect={setTime} />
+          {/* Ключ по дате: часы проявляются заново, и смена дня заметна
+              даже когда сетка времени похожа на вчерашнюю. */}
+          <div key={draft.date ?? "empty"} className="animate-fade-in">
+            <TimeGrid day={day} selected={draft.time} onSelect={setTime} />
+          </div>
         </div>
       </div>
     </fieldset>

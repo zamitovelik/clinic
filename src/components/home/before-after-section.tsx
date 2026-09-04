@@ -67,10 +67,13 @@ export function BeforeAfterSection({ tone = "paper" }: { tone?: "paper" | "milk"
         </div>
 
         <div
+          // Ключ по случаю: при переключении вкладки панель появляется
+          // заново, а не подменяет содержимое на месте.
+          key={active.id}
           role="tabpanel"
           id={`ba-panel-${active.id}`}
           aria-labelledby={`ba-tab-${active.id}`}
-          className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-10"
+          className="mt-6 grid animate-fade-in gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-10"
         >
           <CompareSlider
             // Ключ по случаю: при переключении вкладки шторка возвращается
