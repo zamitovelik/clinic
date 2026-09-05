@@ -24,8 +24,12 @@ export interface Certificate {
 export interface Doctor {
   id: string;
   slug: string;
-  /** Имя не переводится: оно одинаково на обоих языках. */
-  name: string;
+  /**
+   * Имя на обоих языках. Один и тот же врач на русской странице
+   * пишется кириллицей, на узбекской — латиницей; одна строка на двоих
+   * оставляла бы половину сайта на чужой письменности.
+   */
+  name: Localized;
   specialty: Localized;
   /** Стаж в годах. */
   experience: number;

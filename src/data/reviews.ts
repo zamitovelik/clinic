@@ -16,7 +16,7 @@ export const reviews: Review[] = [
   {
     id: "r1",
     doctorSlug: "aliyev-rustam",
-    authorName: "Анна К.",
+    authorName: { ru: "Анна К.", uz: "Anna K." },
     date: "2026-07-21",
     rating: 5,
     text: {
@@ -28,7 +28,7 @@ export const reviews: Review[] = [
   {
     id: "r2",
     doctorSlug: "karimova-dilnoza",
-    authorName: "Мадина Т.",
+    authorName: { ru: "Мадина Т.", uz: "Madina T." },
     date: "2026-07-09",
     rating: 5,
     text: {
@@ -40,7 +40,7 @@ export const reviews: Review[] = [
   {
     id: "r3",
     doctorSlug: "yusupov-timur",
-    authorName: "Рустам А.",
+    authorName: { ru: "Рустам А.", uz: "Rustam A." },
     date: "2026-06-28",
     rating: 5,
     text: {
@@ -52,7 +52,7 @@ export const reviews: Review[] = [
   {
     id: "r4",
     doctorSlug: "nigmatova-lola",
-    authorName: "Севара М.",
+    authorName: { ru: "Севара М.", uz: "Sevara M." },
     date: "2026-06-15",
     rating: 5,
     text: {
@@ -64,7 +64,7 @@ export const reviews: Review[] = [
   {
     id: "r5",
     doctorSlug: "sadikov-jasur",
-    authorName: "Дмитрий П.",
+    authorName: { ru: "Дмитрий П.", uz: "Dmitriy P." },
     date: "2026-05-30",
     rating: 5,
     text: {
@@ -76,7 +76,7 @@ export const reviews: Review[] = [
   {
     id: "r6",
     doctorSlug: "abdullayeva-sevara",
-    authorName: "Ольга В.",
+    authorName: { ru: "Ольга В.", uz: "Olga V." },
     date: "2026-05-12",
     rating: 5,
     text: {
@@ -88,7 +88,7 @@ export const reviews: Review[] = [
   {
     id: "r7",
     doctorSlug: null,
-    authorName: "Шахзод Н.",
+    authorName: { ru: "Шахзод Н.", uz: "Shahzod N." },
     date: "2026-04-27",
     rating: 5,
     text: {
@@ -100,7 +100,7 @@ export const reviews: Review[] = [
   {
     id: "r8",
     doctorSlug: null,
-    authorName: "Ирина С.",
+    authorName: { ru: "Ирина С.", uz: "Irina S." },
     date: "2026-04-03",
     rating: 5,
     text: {

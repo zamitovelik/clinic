@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { defaultLocale, locales } from "@/i18n/config";
+import { defaultLocale, locales, LOCALE_HEADER } from "@/i18n/config";
 
 /**
  * Языковая маршрутизация.
@@ -21,14 +21,25 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url, 308);
   }
 
-  const prefixed = locales.some(
+  const prefixed = locales.find(
     (locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`),
   );
-  if (prefixed) return NextResponse.next();
+
+  /*
+   * Язык кладётся в заголовок запроса.
+   *
+   * Он нужен странице 404: Next.js отрисовывает её вне сегмента с параметром,
+   * поэтому обычным способом язык туда не попадает, и узбекский посетитель
+   * видел бы русский текст.
+   */
+  const headers = new Headers(request.headers);
+  headers.set(LOCALE_HEADER, prefixed ?? defaultLocale);
+
+  if (prefixed) return NextResponse.next({ request: { headers } });
 
   const url = request.nextUrl.clone();
   url.pathname = `/${defaultLocale}${pathname === "/" ? "" : pathname}`;
-  return NextResponse.rewrite(url);
+  return NextResponse.rewrite(url, { request: { headers } });
 }
 
 export const config = {

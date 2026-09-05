@@ -15,7 +15,7 @@ export const doctors: Doctor[] = [
   {
     id: "1",
     slug: "aliyev-rustam",
-    name: "Алиев Рустам Шухратович",
+    name: { ru: "Алиев Рустам Шухратович", uz: "Aliyev Rustam Shuhratovich" },
     specialty: { ru: "Стоматолог-терапевт", uz: "Stomatolog-terapevt" },
     experience: 12,
     category: { ru: "Врач высшей категории", uz: "Oliy toifali shifokor" },
@@ -105,7 +105,7 @@ export const doctors: Doctor[] = [
   {
     id: "2",
     slug: "karimova-dilnoza",
-    name: "Каримова Дилноза Азизовна",
+    name: { ru: "Каримова Дилноза Азизовна", uz: "Karimova Dilnoza Azizovna" },
     specialty: { ru: "Детский стоматолог", uz: "Bolalar stomatologi" },
     experience: 9,
     category: { ru: "Врач первой категории", uz: "Birinchi toifali shifokor" },
@@ -182,7 +182,7 @@ export const doctors: Doctor[] = [
   {
     id: "3",
     slug: "yusupov-timur",
-    name: "Юсупов Тимур Бахтиярович",
+    name: { ru: "Юсупов Тимур Бахтиярович", uz: "Yusupov Timur Bahtiyarovich" },
     specialty: {
       ru: "Стоматолог-хирург, имплантолог",
       uz: "Stomatolog-jarroh, implantolog",
@@ -272,7 +272,7 @@ export const doctors: Doctor[] = [
   {
     id: "4",
     slug: "nigmatova-lola",
-    name: "Нигматова Лола Фарходовна",
+    name: { ru: "Нигматова Лола Фарходовна", uz: "Nigmatova Lola Farhodovna" },
     specialty: { ru: "Врач-ортодонт", uz: "Shifokor-ortodont" },
     experience: 10,
     category: { ru: "Врач первой категории", uz: "Birinchi toifali shifokor" },
@@ -342,7 +342,7 @@ export const doctors: Doctor[] = [
   {
     id: "5",
     slug: "sadikov-jasur",
-    name: "Садиков Жасур Улугбекович",
+    name: { ru: "Садиков Жасур Улугбекович", uz: "Sadikov Jasur Ulugʻbekovich" },
     specialty: {
       ru: "Врач стоматолог-ортопед",
       uz: "Shifokor stomatolog-ortoped",
@@ -419,7 +419,7 @@ export const doctors: Doctor[] = [
   {
     id: "6",
     slug: "abdullayeva-sevara",
-    name: "Абдуллаева Севара Икромовна",
+    name: { ru: "Абдуллаева Севара Икромовна", uz: "Abdullayeva Sevara Ikromovna" },
     specialty: { ru: "Стоматолог-гигиенист", uz: "Stomatolog-gigiyenist" },
     experience: 7,
     category: { ru: "Врач второй категории", uz: "Ikkinchi toifali shifokor" },

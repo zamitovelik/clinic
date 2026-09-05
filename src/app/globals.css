@@ -76,8 +76,15 @@
   --animate-slide-up: slide-up 340ms var(--ease-soft) both;
   --animate-slide-down: slide-down 280ms var(--ease-soft) both;
 
-  /* Переход между страницами: только прозрачность, без сдвига. */
-  --animate-page-in: fade-in 380ms var(--ease-soft) both;
+  /*
+   * Переход между страницами: только прозрачность, без сдвига.
+   *
+   * Заполнение `backwards`, а не `both`: при `both` анимация прозрачности
+   * продолжает применяться и после окончания, а это навсегда оставляет
+   * у обёртки собственный контекст наложения — и всё, что внутри неё,
+   * перестаёт всплывать над закреплённой шапкой.
+   */
+  --animate-page-in: fade-in 380ms var(--ease-soft) backwards;
 }
 
 @keyframes fade-in {

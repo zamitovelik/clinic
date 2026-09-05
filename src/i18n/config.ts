@@ -15,6 +15,14 @@ export type Locale = (typeof locales)[number];
 
 export const defaultLocale: Locale = "ru";
 
+/**
+ * Заголовок, в котором middleware передаёт язык страницам.
+ *
+ * Нужен там, где языкового параметра нет по устройству Next.js, — прежде
+ * всего на странице 404.
+ */
+export const LOCALE_HEADER = "x-dentos-locale";
+
 /** Подписи для переключателя языка. */
 export const localeLabels: Record<Locale, string> = {
   ru: "Рус",

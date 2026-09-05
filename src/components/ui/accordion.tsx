@@ -4,10 +4,17 @@ import { useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/cn";
 
-/** Та же кривая, что и у остального движения на сайте. */
-const EASE = "cubic-bezier(0.22, 0.61, 0.36, 1)";
-const OPEN_MS = 420;
-const CLOSE_MS = 320;
+/*
+ * Кривая здесь своя, не общая `--ease-soft`.
+ *
+ * Общая кривая резко стартует: к четверти времени створка уже проходит
+ * больше половины пути. Для наведения это правильно — отклик должен быть
+ * мгновенным, — но при раскрытии на пол-экрана то же самое читается как
+ * рывок. Эта кривая трогается мягко и так же мягко останавливается.
+ */
+const EASE = "cubic-bezier(0.65, 0, 0.35, 1)";
+const OPEN_MS = 480;
+const CLOSE_MS = 380;
 
 /**
  * Раскрывающийся вопрос.
@@ -56,25 +63,51 @@ export function Accordion({
     }
 
     event.preventDefault();
+
+    /*
+     * Откуда начинать движение.
+     *
+     * Мерить высоту закрытой створки нельзя: браузер прячет содержимое
+     * `<details>`, но вложенный блок при этом продолжает сообщать свою
+     * полную высоту. Анимация получалась «219 → 219», то есть никакая, —
+     * створка распахивалась мгновенно, и плавно проявлялся только текст.
+     * Поэтому при раскрытии старт берётся нулём.
+     *
+     * Исключение — повторное нажатие посреди движения: тогда высота
+     * настоящая, и подхватить нужно именно её, иначе створка прыгнет.
+     */
+    const midway = animationRef.current?.playState === "running";
+    const current = midway ? body.getBoundingClientRect().height : null;
     animationRef.current?.cancel();
 
-    const from = body.getBoundingClientRect().height;
+    const willOpen = !open;
+    setOpen(willOpen);
 
-    if (!details.open) {
-      // Открываем сразу, иначе содержимое скрыто и его нечем измерить.
+    if (willOpen) {
+      // Открываем сразу: пока створка закрыта, содержимое нечем измерить.
       details.open = true;
-      setOpen(true);
 
       animationRef.current = body.animate(
-        { height: [`${from}px`, `${body.scrollHeight}px`], opacity: [0, 1] },
+        { height: [`${current ?? 0}px`, `${body.scrollHeight}px`] },
         { duration: OPEN_MS, easing: EASE },
+      );
+
+      // Текст проявляется отдельной анимацией и быстрее, чем едет створка:
+      // если тянуть прозрачность до конца, ответ дочитывается уже после
+      // остановки и кажется, что блок открылся дважды.
+      body.firstElementChild?.animate(
+        { opacity: [0, 1] },
+        { duration: Math.round(OPEN_MS * 0.6), easing: EASE },
       );
       return;
     }
 
-    setOpen(false);
     animationRef.current = body.animate(
-      { height: [`${from}px`, "0px"], opacity: [1, 0] },
+      { height: [`${current ?? body.getBoundingClientRect().height}px`, "0px"] },
+      { duration: CLOSE_MS, easing: EASE },
+    );
+    body.firstElementChild?.animate(
+      { opacity: [1, 0] },
       { duration: CLOSE_MS, easing: EASE },
     );
 

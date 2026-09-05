@@ -48,7 +48,7 @@ export function ClinicStructuredData({ locale }: { locale: Locale }) {
         "@type": "Dentist",
         name: company.name,
         url: `${siteUrl}${localizedPath("/", locale)}`,
-        telephone: company.phoneRaw,
+        telephone: company.phones.map((item) => item.raw),
         address: {
           "@type": "PostalAddress",
           streetAddress: pick(company.address, locale),
@@ -105,7 +105,7 @@ export function DoctorStructuredData({
       data={{
         "@context": "https://schema.org",
         "@type": "Physician",
-        name: doctor.name,
+        name: pick(doctor.name, locale),
         url: `${siteUrl}${localizedPath(`/doctors/${doctor.slug}`, locale)}`,
         image: `${siteUrl}${doctor.photo}`,
         medicalSpecialty: "Dentistry",

@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" role="presentation">
+  <rect width="1200" height="600" fill="#F1EEEA"/>
+  <rect x="16" y="16" width="158" height="108" rx="6" fill="#E8E3DC"/>
+  <rect x="206" y="16" width="198" height="108" rx="6" fill="#E8E3DC"/>
+  <rect x="436" y="16" width="108" height="108" rx="6" fill="#E8E3DC"/>
+  <rect x="576" y="16" width="208" height="108" rx="6" fill="#E8E3DC"/>
+  <rect x="816" y="16" width="148" height="108" rx="6" fill="#E8E3DC"/>
+  <rect x="996" y="16" width="188" height="108" rx="6" fill="#E8E3DC"/>
+  <rect x="16" y="156" width="158" height="128" rx="6" fill="#E8E3DC"/>
+  <rect x="206" y="156" width="198" height="128" rx="6" fill="#E8E3DC"/>
+  <rect x="436" y="156" width="108" height="128" rx="6" fill="#E4EDE8"/>
+  <rect x="576" y="156" width="208" height="128" rx="6" fill="#E4EDE8"/>
+  <rect x="816" y="156" width="148" height="128" rx="6" fill="#E8E3DC"/>
+  <rect x="996" y="156" width="188" height="128" rx="6" fill="#E8E3DC"/>
+  <rect x="16" y="316" width="158" height="88" rx="6" fill="#E8E3DC"/>
+  <rect x="206" y="316" width="198" height="88" rx="6" fill="#E8E3DC"/>
+  <rect x="436" y="316" width="108" height="88" rx="6" fill="#E4EDE8"/>
+  <rect x="576" y="316" width="208" height="88" rx="6" fill="#E8E3DC"/>
+  <rect x="816" y="316" width="148" height="88" rx="6" fill="#E8E3DC"/>
+  <rect x="996" y="316" width="188" height="88" rx="6" fill="#E8E3DC"/>
+  <rect x="16" y="436" width="158" height="148" rx="6" fill="#E8E3DC"/>
+  <rect x="206" y="436" width="198" height="148" rx="6" fill="#E8E3DC"/>
+  <rect x="436" y="436" width="108" height="148" rx="6" fill="#E8E3DC"/>
+  <rect x="576" y="436" width="208" height="148" rx="6" fill="#E8E3DC"/>
+  <rect x="816" y="436" width="148" height="148" rx="6" fill="#E8E3DC"/>
+  <rect x="996" y="436" width="188" height="148" rx="6" fill="#E4EDE8"/>
+  <rect x="181" y="0" width="18" height="600" fill="#FBFAF8"/>
+  <line x1="181" y1="0" x2="181" y2="600" stroke="#E0DAD1" stroke-width="1"/>
+  <line x1="199" y1="0" x2="199" y2="600" stroke="#E0DAD1" stroke-width="1"/>
+  <rect x="411" y="0" width="18" height="600" fill="#FBFAF8"/>
+  <line x1="411" y1="0" x2="411" y2="600" stroke="#E0DAD1" stroke-width="1"/>
+  <line x1="429" y1="0" x2="429" y2="600" stroke="#E0DAD1" stroke-width="1"/>
+  <rect x="551" y="0" width="18" height="600" fill="#FBFAF8"/>
+  <line x1="551" y1="0" x2="551" y2="600" stroke="#E0DAD1" stroke-width="1"/>
+  <line x1="569" y1="0" x2="569" y2="600" stroke="#E0DAD1" stroke-width="1"/>
+  <rect x="791" y="0" width="18" height="600" fill="#FBFAF8"/>
+  <line x1="791" y1="0" x2="791" y2="600" stroke="#E0DAD1" stroke-width="1"/>
+  <line x1="809" y1="0" x2="809" y2="600" stroke="#E0DAD1" stroke-width="1"/>
+  <rect x="971" y="0" width="18" height="600" fill="#FBFAF8"/>
+  <line x1="971" y1="0" x2="971" y2="600" stroke="#E0DAD1" stroke-width="1"/>
+  <line x1="989" y1="0" x2="989" y2="600" stroke="#E0DAD1" stroke-width="1"/>
+  <rect x="0" y="131" width="1200" height="18" fill="#FBFAF8"/>
+  <line x1="0" y1="131" x2="1200" y2="131" stroke="#E0DAD1" stroke-width="1"/>
+  <line x1="0" y1="149" x2="1200" y2="149" stroke="#E0DAD1" stroke-width="1"/>
+  <rect x="0" y="291" width="1200" height="18" fill="#FBFAF8"/>
+  <line x1="0" y1="291" x2="1200" y2="291" stroke="#E0DAD1" stroke-width="1"/>
+  <line x1="0" y1="309" x2="1200" y2="309" stroke="#E0DAD1" stroke-width="1"/>
+  <rect x="0" y="411" width="1200" height="18" fill="#FBFAF8"/>
+  <line x1="0" y1="411" x2="1200" y2="411" stroke="#E0DAD1" stroke-width="1"/>
+  <line x1="0" y1="429" x2="1200" y2="429" stroke="#E0DAD1" stroke-width="1"/>
+  <path d="M -40 470 L 520 250 L 1240 300" fill="none" stroke="#FBFAF8" stroke-width="26" stroke-linejoin="round"/>
+  <path d="M -40 470 L 520 250 L 1240 300" fill="none" stroke="#E0DAD1" stroke-width="28" stroke-linejoin="round" opacity="0.5"/>
+  <path d="M -40 470 L 520 250 L 1240 300" fill="none" stroke="#FBFAF8" stroke-width="24" stroke-linejoin="round"/>
+  <path d="M 1040 0 C 1090 90 1060 170 1120 250 L 1200 250 L 1200 0 Z" fill="#E3EAEC"/>
+</svg>

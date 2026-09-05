@@ -70,14 +70,16 @@ export default async function ContactsPage({
                 <Phone className="mt-0.5 h-5 w-5 shrink-0 text-accent" aria-hidden />
                 <div className="flex flex-col gap-0.5">
                   <dt className="text-[13px] text-ink-3">{dict.location.phone}</dt>
-                  <dd>
-                    <a
-                      href={`tel:${company.phoneRaw}`}
-                      className="text-[18px] text-ink tabular transition-colors hover:text-accent"
-                    >
-                      {company.phone}
-                    </a>
-                  </dd>
+                  {company.phones.map((item) => (
+                    <dd key={item.raw}>
+                      <a
+                        href={`tel:${item.raw}`}
+                        className="text-[18px] text-ink tabular transition-colors hover:text-accent"
+                      >
+                        {item.display}
+                      </a>
+                    </dd>
+                  ))}
                 </div>
               </div>
 

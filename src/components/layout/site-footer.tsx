@@ -73,15 +73,23 @@ export function SiteFooter({ locale }: { locale: Locale }) {
             {dict.footer.contacts}
           </h2>
           <ul className="flex flex-col gap-3 text-sm text-ink-2">
-            <li>
-              <a
-                href={`tel:${company.phoneRaw}`}
-                className="flex items-center gap-2.5 transition-colors hover:text-accent"
-              >
-                <Phone className="h-4 w-4 shrink-0 text-accent" aria-hidden />
-                <span className="tabular">{company.phone}</span>
-              </a>
-            </li>
+            {company.phones.map((item, index) => (
+              <li key={item.raw}>
+                <a
+                  href={`tel:${item.raw}`}
+                  className="flex items-center gap-2.5 transition-colors hover:text-accent"
+                >
+                  {/* Значок только у первого номера: два телефона подряд
+                      с одинаковой иконкой читаются как два разных пункта. */}
+                  {index === 0 ? (
+                    <Phone className="h-4 w-4 shrink-0 text-accent" aria-hidden />
+                  ) : (
+                    <span className="h-4 w-4 shrink-0" aria-hidden />
+                  )}
+                  <span className="tabular">{item.display}</span>
+                </a>
+              </li>
+            ))}
             <li>
               <a
                 href={company.instagramUrl}

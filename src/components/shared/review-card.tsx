@@ -32,7 +32,7 @@ export function ReviewCard({
       </blockquote>
 
       <figcaption className="flex flex-col gap-0.5 border-t border-line pt-4">
-        <span className="text-sm font-medium text-ink">{review.authorName}</span>
+        <span className="text-sm font-medium text-ink">{pick(review.authorName, locale)}</span>
         <span className="text-[13px] text-ink-3">
           {formatDateFull(review.date, dict)}
           {doctorName ? ` · ${doctorName}` : ""}

@@ -105,8 +105,12 @@ export function AppointmentWizard({
   );
 
   const flatDoctors = useMemo(
-    () => doctors.map((doctor) => ({ slug: doctor.slug, name: doctor.name })),
-    [doctors],
+    () =>
+      doctors.map((doctor) => ({
+        slug: doctor.slug,
+        name: pick(doctor.name, locale),
+      })),
+    [doctors, locale],
   );
 
   if (result) {

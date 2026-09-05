@@ -60,6 +60,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title: `${title} — Dentos Medical`,
       description: pick(service.summary, locale),
+      // Свой блок openGraph полностью заменяет общий из макета, поэтому
+      // картинку приходится указывать заново: без неё ссылка на услугу
+      // приходила в мессенджер голым текстом.
+      images: [`/og-${locale}.png`],
     },
   };
 }
@@ -220,7 +224,7 @@ export default async function ServicePage({ params }: PageProps) {
 
               <NextLink
                 href={localizedPath("/prices", locale)}
-                className="inline-flex items-center gap-1.5 text-sm text-ink-2 transition-colors hover:text-accent"
+                className="inline-flex items-center gap-1.5 py-1 text-sm text-ink-2 transition-colors hover:text-accent"
               >
                 {dict.prices.allPrices}
               </NextLink>

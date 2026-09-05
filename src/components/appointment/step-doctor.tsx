@@ -80,7 +80,7 @@ export function StepDoctor({ doctors }: { doctors: Doctor[] }) {
 
               <span className="flex min-w-0 flex-col gap-0.5">
                 <span className="truncate text-[15px] font-medium text-ink">
-                  {doctor.name}
+                  {pick(doctor.name, locale)}
                 </span>
                 <span className="text-[13px] text-accent">
                   {pick(doctor.specialty, locale)}

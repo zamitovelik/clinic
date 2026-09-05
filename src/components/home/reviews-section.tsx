@@ -3,7 +3,7 @@ import { Reveal } from "@/components/ui/reveal";
 import { ReviewCard } from "@/components/shared/review-card";
 import type { Review } from "@/types/review";
 import type { Doctor } from "@/types/doctor";
-import { getDictionary, type Locale } from "@/i18n";
+import { getDictionary, pick, type Locale } from "@/i18n";
 
 export function ReviewsSection({
   reviews,
@@ -15,7 +15,9 @@ export function ReviewsSection({
   locale: Locale;
 }) {
   const dict = getDictionary(locale);
-  const nameBySlug = new Map(doctors.map((doctor) => [doctor.slug, doctor.name]));
+  const nameBySlug = new Map(
+    doctors.map((doctor) => [doctor.slug, pick(doctor.name, locale)]),
+  );
 
   return (
     <Section id="reviews">

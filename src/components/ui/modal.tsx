@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { cn } from "@/lib/cn";
 
@@ -33,6 +34,9 @@ export function Modal({
 }) {
   const closeRef = useRef<HTMLButtonElement>(null);
   const restoreRef = useRef<HTMLElement | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     if (!open) return;
@@ -59,11 +63,20 @@ export function Modal({
     };
   }, [open, onClose]);
 
-  if (!open) return null;
+  if (!open || !mounted) return null;
 
   const isPanel = variant === "panel";
 
-  return (
+  /*
+   * Окно выносится порталом в конец `body`.
+   *
+   * Иначе оно остаётся внутри страницы, а у страницы есть предки со своим
+   * контекстом наложения — анимация перехода между страницами, появление
+   * секций при прокрутке. Такой предок запирает содержимое: `z-index`
+   * окна перестаёт что-либо значить снаружи, и закреплённая шапка сайта
+   * рисуется поверх затемнения. В `body` окно ни от чего не зависит.
+   */
+  return createPortal(
     <div
       className={cn(
         "fixed inset-0 z-100 flex justify-center bg-deep/95",
@@ -129,6 +142,7 @@ export function Modal({
           {children}
         </div>
       )}
-    </div>
+    </div>,
+    document.body,
   );
 }

@@ -23,6 +23,7 @@ export function DoctorCard({
 }) {
   const dict = getDictionary(locale);
   const specialty = pick(doctor.specialty, locale);
+  const name = pick(doctor.name, locale);
 
   return (
     <article
@@ -37,7 +38,7 @@ export function DoctorCard({
       <div className="relative aspect-4/5 overflow-hidden bg-milk">
         <Image
           src={doctor.photo}
-          alt={`${doctor.name} — ${specialty}`}
+          alt={`${name} — ${specialty}`}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="object-cover transition-transform duration-700 ease-soft group-hover:scale-[1.03]"
@@ -51,7 +52,7 @@ export function DoctorCard({
               href={localizedPath(`/doctors/${doctor.slug}`, locale)}
               className="before:absolute before:inset-0"
             >
-              {doctor.name}
+              {name}
             </NextLink>
           </h3>
           <p className="text-sm text-accent">{specialty}</p>

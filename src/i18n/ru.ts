@@ -46,7 +46,6 @@ export const ru = {
     more: "Подробнее",
     back: "Назад",
     close: "Закрыть",
-    of: "из",
   },
 
   hero: {
@@ -111,6 +110,8 @@ export const ru = {
     prev: "Предыдущая фотография",
     next: "Следующая фотография",
     photo: "Фотография",
+    /** «3 из 8». Порядок слов задаётся шаблоном: в узбекском он другой. */
+    counter: "{index} из {total}",
   },
 
   location: {
@@ -443,7 +444,7 @@ export const ru = {
     doctorNotFound: "Врач не найден",
     serviceNotFound: "Услуга не найдена",
     doctorDescription:
-      "{name}, {specialty}. Стаж {experience}. {summary} Запись онлайн в клинику Dentos Medical.",
+      "{name}, {specialty}. Стаж {experience}. {summary} Онлайн-запись.",
     serviceDescription:
       "{title} в стоматологии Dentos Medical, Ташкент. {summary} Онлайн-запись к врачу.",
     pricesTitle: "Цены",

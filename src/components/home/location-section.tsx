@@ -46,12 +46,17 @@ export function LocationSection({ locale }: { locale: Locale }) {
                 <Phone className="mt-0.5 h-5 w-5 shrink-0 text-accent" aria-hidden />
                 <div>
                   <p className="text-[13px] text-ink-3">{dict.location.phone}</p>
-                  <a
-                    href={`tel:${company.phoneRaw}`}
-                    className="text-[15px] text-ink tabular transition-colors hover:text-accent"
-                  >
-                    {company.phone}
-                  </a>
+                  <div className="flex flex-col">
+                    {company.phones.map((item) => (
+                      <a
+                        key={item.raw}
+                        href={`tel:${item.raw}`}
+                        className="text-[15px] text-ink tabular transition-colors hover:text-accent"
+                      >
+                        {item.display}
+                      </a>
+                    ))}
+                  </div>
                 </div>
               </div>
 

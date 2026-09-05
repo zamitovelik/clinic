@@ -27,7 +27,7 @@ export function getBookingData(
   return {
     doctor: {
       slug: doctor.slug,
-      name: doctor.name,
+      name: pick(doctor.name, locale),
       specialty: pick(doctor.specialty, locale),
       photo: doctor.photo,
     },

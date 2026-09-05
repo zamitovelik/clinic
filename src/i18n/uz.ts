@@ -48,7 +48,6 @@ export const uz: Dictionary = {
     more: "Batafsil",
     back: "Orqaga",
     close: "Yopish",
-    of: "dan",
   },
 
   hero: {
@@ -113,6 +112,7 @@ export const uz: Dictionary = {
     prev: "Oldingi fotosurat",
     next: "Keyingi fotosurat",
     photo: "Fotosurat",
+    counter: "{total} dan {index}",
   },
 
   location: {
@@ -445,7 +445,7 @@ export const uz: Dictionary = {
     doctorNotFound: "Shifokor topilmadi",
     serviceNotFound: "Xizmat topilmadi",
     doctorDescription:
-      "{name}, {specialty}. Tajriba {experience}. {summary} Dentos Medical klinikasiga onlayn yozilish.",
+      "{name}, {specialty}. Tajriba {experience}. {summary} Onlayn yozilish.",
     serviceDescription:
       "Toshkentdagi Dentos Medical stomatologiyasida {title}. {summary} Shifokorga onlayn yozilish.",
     pricesTitle: "Narxlar",

@@ -56,8 +56,10 @@ export function ClinicMap({ className }: { className?: string }) {
           aria-label={`${dict.location.mapShow}: ${address}`}
           className="group absolute inset-0 h-full w-full cursor-pointer"
         >
+          {/* Подложка нарисована под эту кнопку: схема кварталов, свободная
+              середина и никакого знака, с которым текст мог бы столкнуться. */}
           <Image
-            src="/images/map-placeholder.svg"
+            src="/images/map-facade.svg"
             alt=""
             fill
             sizes="(max-width: 1024px) 100vw, 640px"
@@ -66,12 +68,12 @@ export function ClinicMap({ className }: { className?: string }) {
 
           {/* Нижний отступ держит кнопку выше карточки с адресом: на узком
               экране карта невысокая, и по центру кнопка легла бы прямо под неё. */}
-          <span className="absolute inset-0 flex flex-col items-center justify-center gap-3 pb-28 sm:pb-32">
-            <span className="inline-flex items-center gap-2 rounded-pill bg-accent px-5 py-2.5 text-sm font-medium text-white transition-colors group-hover:bg-accent-hover">
+          <span className="absolute inset-0 flex flex-col items-center justify-center gap-2.5 px-6 pb-28 sm:pb-32">
+            <span className="inline-flex items-center gap-2 rounded-pill bg-accent px-5 py-2.5 text-sm font-medium text-white shadow-soft transition-colors group-hover:bg-accent-hover">
               <MapPin className="h-4 w-4" aria-hidden />
               {dict.location.mapShow}
             </span>
-            <span className="hidden max-w-[16rem] text-center text-[12px] leading-relaxed text-ink-3 sm:block">
+            <span className="hidden max-w-[17rem] text-center text-[12px] leading-relaxed text-ink-2 sm:block">
               {dict.location.mapHint}
             </span>
           </span>

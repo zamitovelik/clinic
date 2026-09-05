@@ -16,6 +16,16 @@ export interface WorkingDayHours {
   hours: string | null;
 }
 
+/**
+ * Телефоны клиники. Первый — основной: он стоит в шапке, в нижней панели
+ * и на всех кнопках «позвонить», где номер должен быть один. Списками
+ * (подвал, контакты, блок «как нас найти») показываются оба.
+ */
+const phones = [
+  { display: "+998 99 780 11 44", raw: "+998997801144" },
+  { display: "+998 97 758 81 81", raw: "+998977588181" },
+];
+
 export const company = {
   name: "Dentos Medical",
   nameShort: "Dentos",
@@ -28,9 +38,11 @@ export const company = {
     ru: "Ташкент, ул. Мукими, 19А",
     uz: "Toshkent, Muqimiy koʻchasi, 19A",
   } satisfies Localized,
-  phone: "+998 99 780 11 44",
+  phones,
+  /** Основной номер — там, где номер по смыслу один. */
+  phone: phones[0].display,
   /** Тот же номер без разделителей — для tel: и WhatsApp. */
-  phoneRaw: "+998997801144",
+  phoneRaw: phones[0].raw,
   instagram: "@dentosmedical",
   instagramUrl: "https://instagram.com/dentosmedical",
 

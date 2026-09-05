@@ -7,6 +7,7 @@ import { Modal } from "@/components/ui/modal";
 import { Reveal } from "@/components/ui/reveal";
 import { Section, SectionHeading } from "@/components/ui/section";
 import { useI18n } from "@/i18n/context";
+import { fill } from "@/i18n";
 import { cn } from "@/lib/cn";
 
 /** Снимок галереи с подписью уже на нужном языке. */
@@ -121,8 +122,11 @@ export function GallerySection({ items }: { items: GalleryPhoto[] }) {
               </button>
 
               <span className="tabular">
-                {active.caption} · {(openIndex ?? 0) + 1} {dict.common.of}{" "}
-                {items.length}
+                {active.caption} ·{" "}
+                {fill(dict.gallery.counter, {
+                  index: (openIndex ?? 0) + 1,
+                  total: items.length,
+                })}
               </span>
 
               <button

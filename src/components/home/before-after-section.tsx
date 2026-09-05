@@ -104,7 +104,7 @@ export function BeforeAfterSection({ tone = "paper" }: { tone?: "paper" | "milk"
 
             <NextLink
               href={localizedPath(`/services/${active.serviceSlug}`, locale)}
-              className="inline-flex items-center gap-1.5 self-start text-sm text-accent transition-colors hover:text-accent-hover"
+              className="inline-flex items-center gap-1.5 self-start py-1 text-sm text-accent transition-colors hover:text-accent-hover"
             >
               {dict.beforeAfter.aboutService}
               <ArrowRight className="h-4 w-4" aria-hidden />

@@ -114,7 +114,7 @@ export default async function PricesPage({
 
                   <NextLink
                     href={localizedPath(`/services/${group.serviceSlug}`, locale)}
-                    className="inline-flex items-center gap-1.5 text-sm text-ink-2 transition-colors hover:text-accent"
+                    className="inline-flex items-center gap-1.5 py-1 text-sm text-ink-2 transition-colors hover:text-accent"
                   >
                     {dict.pricesPage.toService}
                     <ArrowRight className="h-4 w-4" aria-hidden />

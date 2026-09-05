@@ -55,12 +55,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!doctor) return { title: dict.meta.doctorNotFound };
 
   const specialty = pick(doctor.specialty, locale);
+  const name = pick(doctor.name, locale);
   const path = `/doctors/${doctor.slug}`;
 
   return {
-    title: `${doctor.name} — ${specialty}`,
+    title: `${name} — ${specialty}`,
     description: fill(dict.meta.doctorDescription, {
-      name: doctor.name,
+      name,
       specialty: specialty.toLowerCase(),
       experience: pluralYears(doctor.experience, dict),
       summary: pick(doctor.shortDescription, locale),
@@ -72,7 +73,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       ),
     },
     openGraph: {
-      title: `${doctor.name} — ${specialty}`,
+      title: `${name} — ${specialty}`,
       description: pick(doctor.shortDescription, locale),
       images: [doctor.photo],
     },
@@ -98,6 +99,7 @@ export default async function DoctorPage({ params }: PageProps) {
 
   const booking = getBookingData(doctor.slug, locale);
   const specialty = pick(doctor.specialty, locale);
+  const doctorName = pick(doctor.name, locale);
 
   const certificates = doctor.certificates.map((certificate) => ({
     id: certificate.id,
@@ -125,7 +127,7 @@ export default async function DoctorPage({ params }: PageProps) {
             <div className="relative aspect-4/5 overflow-hidden rounded-card bg-mist">
               <Image
                 src={doctor.photo}
-                alt={`${doctor.name} — ${specialty}`}
+                alt={`${doctorName} — ${specialty}`}
                 fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 380px"
@@ -137,7 +139,7 @@ export default async function DoctorPage({ params }: PageProps) {
               <div className="flex flex-col gap-3">
                 <p className="eyebrow">{specialty}</p>
                 <h1 className="display text-[34px] sm:text-[46px]">
-                  {doctor.name}
+                  {doctorName}
                 </h1>
                 <p className="max-w-xl text-[16px] leading-relaxed text-ink-2">
                   {pick(doctor.shortDescription, locale)}
