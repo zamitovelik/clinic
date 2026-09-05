@@ -48,10 +48,13 @@ export function FaqSection({
             </ul>
           </Reveal>
 
+          {/* Карточка тянется на высоту списка вопросов, а кнопка прижата
+              к низу: короткая карточка рядом с длинным списком оставляла
+              справа пустое место и ряд выглядел неровным. */}
           <Reveal
             delay={80}
             as="aside"
-            className="flex h-fit flex-col gap-4 rounded-card border border-line bg-milk p-7"
+            className="flex flex-col gap-4 rounded-card border border-line bg-milk p-7"
           >
             <p className="text-[17px] font-semibold text-ink">
               {dict.faq.stillQuestions}
@@ -59,7 +62,7 @@ export function FaqSection({
             <p className="text-[14px] leading-relaxed text-ink-2">
               {dict.faq.asideText}
             </p>
-            <Button asChild variant="outline" className="self-start">
+            <Button asChild variant="outline" className="mt-auto self-start">
               <a href={`tel:${company.phoneRaw}`} aria-label={dict.faq.callUs}>
                 <Phone className="h-4 w-4" aria-hidden />
                 {company.phone}

@@ -8,7 +8,6 @@ import { Reveal } from "@/components/ui/reveal";
 import { Section, SectionHeading } from "@/components/ui/section";
 import { useI18n } from "@/i18n/context";
 import { fill } from "@/i18n";
-import { cn } from "@/lib/cn";
 
 /** Снимок галереи с подписью уже на нужном языке. */
 export interface GalleryPhoto {
@@ -62,16 +61,18 @@ export function GallerySection({ items }: { items: GalleryPhoto[] }) {
           description={dict.gallery.description}
         />
 
-        {/* Первая карточка шире остальных: сетка не выглядит однообразной,
-            и взгляд получает точку входа. Соотношение у всех одинаковое —
-            иначе кадрирование срезало бы края фотографии. */}
+        {/*
+          Все плитки одинаковые.
+
+          Первая была шире остальных — «чтобы взгляд получил точку входа», —
+          но широкая плитка при том же соотношении сторон вдвое выше соседних.
+          Строка вытягивалась под неё, а под соседними плитками оставалась
+          пустота. Ровная сетка и выглядит спокойнее, и не сломается, когда
+          заказчик пришлёт не восемь фотографий, а пять или двенадцать.
+        */}
         <div className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
           {items.map((item, index) => (
-            <Reveal
-              key={item.id}
-              delay={index * 50}
-              className={cn(index === 0 && "col-span-2")}
-            >
+            <Reveal key={item.id} delay={index * 50}>
               <button
                 type="button"
                 onClick={() => setOpenIndex(index)}
