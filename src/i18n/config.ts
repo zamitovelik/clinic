@@ -26,7 +26,9 @@ export const LOCALE_HEADER = "x-dentos-locale";
 /** Подписи для переключателя языка. */
 export const localeLabels: Record<Locale, string> = {
   ru: "Рус",
-  uz: "O‘zb",
+  // Буква Oʻ пишется через U+02BB, как и во всех узбекских текстах
+  // сайта: типографская кавычка U+2018 здесь была опечаткой.
+  uz: "Oʻzb",
 };
 
 /** Значение атрибута lang для html. */

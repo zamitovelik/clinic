@@ -26,7 +26,10 @@ export function LocationSection({ locale }: { locale: Locale }) {
           {/* h-full на обёртке и на карте: иначе карта перестала бы
               растягиваться на высоту соседней колонки. */}
           <Reveal className="h-full">
-            <ClinicMap className="h-full aspect-16/10 lg:aspect-auto lg:min-h-[420px]" />
+            {/* На телефоне карта выше: при 16:10 её высота падает до 240px,
+                и кнопка «Показать карту» оказывается впритык к карточке
+                с адресом. */}
+            <ClinicMap className="h-full aspect-4/3 sm:aspect-16/10 lg:aspect-auto lg:min-h-[420px]" />
           </Reveal>
 
           <Reveal

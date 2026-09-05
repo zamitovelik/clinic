@@ -110,11 +110,9 @@ export function BeforeAfterSection({ tone = "paper" }: { tone?: "paper" | "milk"
               <ArrowRight className="h-4 w-4" aria-hidden />
             </NextLink>
 
-            {active.demo && (
-              <DemoNotice className="mt-auto">
-                {dict.beforeAfter.demoNotice}
-              </DemoNotice>
-            )}
+            {/* Плашка идёт сразу за ссылкой. Прижатая к низу колонки, она
+                отрывалась от текста и оставляла посередине пустоту. */}
+            {active.demo && <DemoNotice>{dict.beforeAfter.demoNotice}</DemoNotice>}
           </div>
         </div>
       </div>
